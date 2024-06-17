@@ -11,6 +11,100 @@ model User {
     id        String @id @default(uuid())
     firstName String @map("first_name")
     lastName  String @map("last_name")
+    email     String @unique
+    password  String
+    roleId    String @map("role_id")
+    role      Role   @relation(fields: [roleId], references: [id])
+    teams     TeamMember[]
+    accessLogs AccessLog[]
+    
+    createdAt DateTime @default(now()) @map("created_at")
+    updatedAt DateTime @default(now()) @map("updated_at")
 
     @@map("user")
+}
+
+model Team  {
+    id String @id @default(uuid())
+    name String
+    description String?
+    members TeamMember[] @relation
+    
+    createdAt DateTime @default(now()) @map("created_at")
+    updatedAt DateTime @default(now()) @map("updated_at")
+
+    @@map("team")
+}
+
+model TeamMember {
+    id String @id @default(uuid())
+    teamId String @map("team_id")
+    team Team @relation(fields: [teamId], references: [id])
+    userId String @map("user_id")
+    user User @relation(fields: [userId], references: [id])
+    isAdmin Boolean @default(false) @map("is_admin")
+
+    createdAt DateTime @default(now()) @map("created_at")
+    updatedAt DateTime @default(now()) @map("updated_at")
+
+    @@map("team_member")
+}
+
+model Role {
+    id  String @id @default(uuid())
+    name String
+    users User[]
+
+    @@map("role")
+}
+
+
+model Income {
+    id String @id @default(uuid())
+    value Float
+    currency String @default("USD")
+    
+    createdAt DateTime @default(now()) @map("created_at")
+    updatedAt DateTime @default(now()) @map("updated_at")
+
+    @@map("income")
+}
+
+model Expense {
+    id  String @id @default(uuid())
+    value Float
+    currency String @default("USD")
+
+    createdAt DateTime @default(now()) @map("created_at")
+    updatedAt DateTime @default(now()) @map("updated_at")
+
+    @@map("expense")
+}
+
+model AccessLog {
+    id  String @id @default(uuid())
+    ipAddress   String? @map("ip_address")
+    userId  String @map("user_id")
+    user    User @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+    status  String @default("SUCCESS")
+    createdAt   DateTime @default(now())
+
+    @@map("access_log") 
+}
+
+model Category {
+    id  String @id @default(uuid())
+    name String
+    subCategories SubCategory[]
+
+    @@map("category")
+}
+
+model SubCategory {
+    id  String @id @default(uuid())
+    name String
+    categoryId String @map("category_id")
+    category Category @relation(fields: [categoryId], references: [id])
+    
+    @@map("sub_category")
 }
