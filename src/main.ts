@@ -9,8 +9,9 @@ import { Logger, LoggerErrorInterceptor, PinoLogger } from 'nestjs-pino';
 import { requestHandlerMiddleware } from '~common/http/request-handler.helper';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
+//comment
 async function bootstrap() {
-  // testni komentar Vito
+  // testni komentar Vito 22
   const app = await NestFactory.create(AppModule, {
     bufferLogs: true, // buffer logs until logger is setup
     abortOnError: false, // force nest.js to bubble up exceptions
