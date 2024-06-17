@@ -14,7 +14,7 @@ import { PrismaModule } from '~vendor/prisma/prisma.module';
     ScheduleModule.forRoot(),
     LoggerModule,
     AuthModule,
-    PrismaModule
+    PrismaModule,
   ],
   controllers: [AppController],
 })

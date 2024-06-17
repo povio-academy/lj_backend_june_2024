@@ -87,7 +87,9 @@ export class AllExceptionsFilter implements ExceptionFilter {
     if (!response.headersSent) {
       response.status(httpStatus);
       response.json(
-        instanceToPlain(errorResponseDto, { excludeExtraneousValues: true }),
+        instanceToPlain(errorResponseDto, {
+          excludeExtraneousValues: true,
+        }),
       );
     }
   }
