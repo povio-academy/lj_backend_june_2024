@@ -9,7 +9,7 @@ import { Logger, LoggerErrorInterceptor, PinoLogger } from 'nestjs-pino';
 import { requestHandlerMiddleware } from '~common/http/request-handler.helper';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
-//Comment
+//comment
 async function bootstrap() {
   // Drugi testni komentar Vito
   const app = await NestFactory.create(AppModule, {
