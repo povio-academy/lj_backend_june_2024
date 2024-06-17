@@ -8,30 +8,28 @@ import { PrismaModule } from '~vendor/prisma/prisma.module';
 import { PrismaService } from '~vendor/prisma/prisma.service';
 
 @Module({
-    imports: [PrismaModule, ConfigModule],
+  imports: [PrismaModule, ConfigModule],
 })
 export class AppModule {}
 
 async function bootstrap() {
-    const app = await NestFactory.create(AppModule, { logger: false });
-    const prisma = app.get(PrismaService);
+  const app = await NestFactory.create(AppModule, { logger: false });
+  const prisma = app.get(PrismaService);
 
-    const dbs: { datname: string }[] = await prisma.client
-        .$queryRaw`SELECT datname FROM pg_database WHERE datname LIKE '%test_%';`;
+  const dbs: { datname: string }[] = await prisma.client
+    .$queryRaw`SELECT datname FROM pg_database WHERE datname LIKE '%test_%';`;
 
-    const promises: Promise<any>[] = [];
-    dbs.forEach((x) => {
-        promises.push(
-            prisma.client.$executeRawUnsafe(
-                `DROP DATABASE IF EXISTS ${x.datname};`,
-            ),
-        );
-    });
-    await Promise.all(promises);
+  const promises: Promise<any>[] = [];
+  dbs.forEach((x) => {
+    promises.push(
+      prisma.client.$executeRawUnsafe(`DROP DATABASE IF EXISTS ${x.datname};`),
+    );
+  });
+  await Promise.all(promises);
 
-    console.log('\nDangling test databases deleted.');
+  console.log('\nDangling test databases deleted.');
 
-    await prisma.client.$disconnect();
+  await prisma.client.$disconnect();
 }
 
 bootstrap();

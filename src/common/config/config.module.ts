@@ -2,15 +2,15 @@ import { TypedConfigModule, fileLoader, selectConfig } from 'nest-typed-config';
 import { Config } from './config';
 
 if (!process.env.NODE_ENV) {
-    process.env.NODE_ENV = 'local';
+  process.env.NODE_ENV = 'local';
 }
 
 export const ConfigModule = TypedConfigModule.forRoot({
-    schema: Config,
-    load: fileLoader({
-        disallowUndefinedEnvironmentVariables: true,
-        ignoreEnvironmentVariableSubstitution: false,
-    }),
+  schema: Config,
+  load: fileLoader({
+    disallowUndefinedEnvironmentVariables: true,
+    ignoreEnvironmentVariableSubstitution: false,
+  }),
 });
 
 /*

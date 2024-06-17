@@ -5,17 +5,17 @@ import { ConfigModule } from '~common/config/config.module';
 import { userSeed } from './user.seed';
 
 @Module({
-    imports: [ConfigModule],
+  imports: [ConfigModule],
 })
 export class AppModule {}
 
 async function bootstrap() {
-    console.log('Seeding database...');
-    const app = await NestFactory.create(AppModule);
+  console.log('Seeding database...');
+  const app = await NestFactory.create(AppModule);
 
-    await userSeed(app);
+  await userSeed(app);
 
-    console.log('Seeding database completed!');
+  console.log('Seeding database completed!');
 }
 
 bootstrap();
