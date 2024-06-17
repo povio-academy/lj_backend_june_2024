@@ -8,14 +8,14 @@ import { ClsModule } from '~common/cls/cls.module';
 import { PrismaModule } from '~vendor/prisma/prisma.module';
 
 @Module({
-  imports: [
-    ClsModule,
-    ConfigModule,
-    ScheduleModule.forRoot(),
-    LoggerModule,
-    AuthModule,
-    PrismaModule
-  ],
-  controllers: [AppController],
+    imports: [
+        ClsModule,
+        ConfigModule,
+        ScheduleModule.forRoot(),
+        LoggerModule,
+        AuthModule,
+        PrismaModule,
+    ],
+    controllers: [AppController],
 })
 export class AppModule {}
