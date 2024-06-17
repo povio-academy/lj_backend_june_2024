@@ -11,60 +11,58 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 //Comment
 async function bootstrap() {
-    const app = await NestFactory.create(AppModule, {
-        bufferLogs: true, // buffer logs until logger is setup
-        abortOnError: false, // force nest.js to bubble up exceptions
-    });
+  const app = await NestFactory.create(AppModule, {
+    bufferLogs: true, // buffer logs until logger is setup
+    abortOnError: false, // force nest.js to bubble up exceptions
+  });
 
-    const rootConfig = app.get(Config);
+  const rootConfig = app.get(Config);
 
-    const logger = app.get(Logger);
-    app.useLogger(logger);
-    // This enables error cause stack in the logs
-    app.useGlobalInterceptors(new LoggerErrorInterceptor());
+  const logger = app.get(Logger);
+  app.useLogger(logger);
+  // This enables error cause stack in the logs
+  app.useGlobalInterceptors(new LoggerErrorInterceptor());
 
-    app.use(requestHandlerMiddleware());
+  app.use(requestHandlerMiddleware());
 
-    app.useGlobalInterceptors(
-        new ClassSerializerInterceptor(app.get(Reflector), {
-            excludeExtraneousValues: true,
-        }),
-    );
+  app.useGlobalInterceptors(
+    new ClassSerializerInterceptor(app.get(Reflector), {
+      excludeExtraneousValues: true,
+    }),
+  );
 
-    app.useGlobalPipes(
-        new ValidationPipe({
-            transform: true, // use DTOs as runtime types
-            whitelist: true, // strip non-whitelisted
-            exceptionFactory: (fieldErrors) => {
-                const err = new ValidationError(flatten(fieldErrors));
-                return err;
-            },
-        }),
-    );
+  app.useGlobalPipes(
+    new ValidationPipe({
+      transform: true, // use DTOs as runtime types
+      whitelist: true, // strip non-whitelisted
+      exceptionFactory: (fieldErrors) => {
+        const err = new ValidationError(flatten(fieldErrors));
+        return err;
+      },
+    }),
+  );
 
-    app.useGlobalFilters(new AllExceptionsFilter());
+  app.useGlobalFilters(new AllExceptionsFilter());
 
-    const config = new DocumentBuilder()
-        .setTitle('Gold Price Tracker API')
-        .setDescription('API docs for Gold Price Tracker API')
-        .setVersion('1.0')
-        .addBearerAuth()
-        .build();
-    const document = SwaggerModule.createDocument(app, config);
-    SwaggerModule.setup('docs', app, document, {
-        swaggerOptions: {
-            persistAuthorization: true,
-        },
-    });
+  const config = new DocumentBuilder()
+    .setTitle('Gold Price Tracker API')
+    .setDescription('API docs for Gold Price Tracker API')
+    .setVersion('1.0')
+    .addBearerAuth()
+    .build();
+  const document = SwaggerModule.createDocument(app, config);
+  SwaggerModule.setup('docs', app, document, {
+    swaggerOptions: {
+      persistAuthorization: true,
+    },
+  });
 
-    await app.listen(rootConfig.app.port);
+  await app.listen(rootConfig.app.port);
 
-    logger.log(
-        `Using configuration for "${process.env.NODE_ENV}" environment.`,
-    );
-    logger.log(`Application is running on: ${await app.getUrl()}`);
+  logger.log(`Using configuration for "${process.env.NODE_ENV}" environment.`);
+  logger.log(`Application is running on: ${await app.getUrl()}`);
 }
 bootstrap().catch((e) => {
-    PinoLogger.root.error(e.message, e, 'Bootstrap');
-    process.exit(1);
+  PinoLogger.root.error(e.message, e, 'Bootstrap');
+  process.exit(1);
 });
