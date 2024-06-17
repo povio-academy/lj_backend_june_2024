@@ -4,7 +4,7 @@ import { spawn } from 'node:child_process';
 import { writeFileSync } from 'node:fs';
 
 import { PrismaConfig } from './prisma.config';
-
+// This is my frist commet
 @Injectable()
 export class PrismaService {
   client!: PrismaClient;
