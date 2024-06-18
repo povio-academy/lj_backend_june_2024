@@ -43,9 +43,9 @@ model Team  {
 model TeamMember {
     id String @id @default(uuid())
     teamId String @map("team_id")
-    team Team @relation(fields: [teamId], references: [id])
+    team Team @relation(fields: [teamId], references: [id], onUpdate: Cascade)
     userId String @map("user_id")
-    user User @relation(fields: [userId], references: [id])
+    user User @relation(fields: [userId], references: [id], onUpdate: Cascade)
     isAdmin Boolean @default(false) @map("is_admin")
 
     createdAt DateTime @default(now()) @map("created_at")
