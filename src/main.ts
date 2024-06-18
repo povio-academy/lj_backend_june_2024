@@ -11,7 +11,7 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 //Comment
 async function bootstrap() {
-  // Drugi testni komentar Vito
+  // Tretji testni komentar Vito
 
   const app = await NestFactory.create(AppModule, {
     bufferLogs: true, // buffer logs until logger is setup
