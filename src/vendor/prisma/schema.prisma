@@ -59,6 +59,9 @@ model Role {
     name String
     users User[]
 
+    createdAt DateTime @default(now()) @map("created_at")
+    updatedAt DateTime @default(now()) @map("updated_at")
+
     @@map("role")
 }
 
@@ -73,7 +76,7 @@ model Transaction {
     subCategoryId   String? @map("sub_category_id")
     subCategory SubCategory? @relation(fields: [subCategoryId], references: [id], onUpdate: Cascade)
     isDeleted   Boolean @default(false) @map("is_deleted")
-    images  Image[]
+    transactionImages TransactionImage[]
     note String?
     amount  Float
     type    String
@@ -92,7 +95,10 @@ model AccessLog {
     userId  String @map("user_id")
     user    User @relation(fields: [userId], references: [id], onUpdate: Cascade)
     status  String @default("SUCCESS")
-    createdAt   DateTime @default(now())
+
+    createdAt   DateTime @default(now()) @map("created_at")
+    updatedAt   DateTime @default(now()) @map("updated_at")
+
     @@map("access_log") 
 }
 
@@ -101,6 +107,10 @@ model Category {
     name String
     subCategories SubCategory[]
     transactions Transaction[]
+
+    createdAt DateTime @default(now()) @map("created_at")
+    updatedAt DateTime @default(now()) @map("updated_at")
+
     @@map("category")
 }
 
@@ -110,6 +120,9 @@ model SubCategory {
     categoryId String @map("category_id")
     category Category @relation(fields: [categoryId], references: [id], onUpdate: Cascade)
     transactions Transaction[]
+
+    createdAt DateTime @default(now()) @map("created_at")
+    updatedAt DateTime @default(now()) @map("updated_at")
     
     @@map("sub_category")
 }
@@ -118,12 +131,24 @@ model Image {
     id  String @id @default(uuid())
     url String
     description String?
-    transactionId String @map("transaction_id")
-    transaction Transaction @relation(fields: [transactionId], references: [id], onUpdate: Cascade)
+    transactionImages TransactionImage[]
     isDeleted Boolean @default(false) @map("is_deleted")
 
     createdAt DateTime @default(now()) @map("created_at")
     updatedAt DateTime @default(now()) @map("updated_at")
 
     @@map("image")
+}
+
+model TransactionImage {
+    id  String @id @default(uuid())
+    transactionId String @map("transaction_id")
+    transaction Transaction @relation(fields: [transactionId], references: [id], onUpdate: Cascade)
+    imageId String @map("image_id")
+    image Image @relation(fields: [imageId], references: [id], onUpdate: Cascade)
+
+    createdAt DateTime @default(now()) @map("created_at")
+    updatedAt DateTime @default(now()) @map("updated_at")
+
+    @@map("transaction_image")
 }
