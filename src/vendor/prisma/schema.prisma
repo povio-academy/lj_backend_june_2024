@@ -16,6 +16,7 @@ model User {
     roleId    String @map("role_id")
     role      Role   @relation(fields: [roleId], references: [id])
     teams     TeamMember[]
+    transactions Transaction[]
     accessLogs AccessLog[]
     
     createdAt DateTime @default(now()) @map("created_at")
@@ -29,6 +30,7 @@ model Team  {
     name String
     description String?
     members TeamMember[] @relation
+    transactions Transaction[]
     
     createdAt DateTime @default(now()) @map("created_at")
     updatedAt DateTime @default(now()) @map("updated_at")
@@ -58,27 +60,24 @@ model Role {
     @@map("role")
 }
 
-
-model Income {
-    id String @id @default(uuid())
-    value Float
-    currency String @default("USD")
-    
-    createdAt DateTime @default(now()) @map("created_at")
-    updatedAt DateTime @default(now()) @map("updated_at")
-
-    @@map("income")
-}
-
-model Expense {
+model Transaction {
     id  String @id @default(uuid())
-    value Float
-    currency String @default("USD")
+    userId  String @map("user_id")
+    user    User @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+    teamId String? @map("team_id")
+    team    Team? @relation(fields: [teamId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+    categoryId  String? @map("category_id")
+    category    Category? @relation(fields: [categoryId], references: [id])
+    subCategoryId   String? @map("sub_category_id")
+    subCategory SubCategory? @relation(fields: [subCategoryId], references: [id])
+    amount  Float
+    type    String
+    status  String
+    reference   String
+    createdAt   DateTime @default(now()) @map("created_at")
+    updatedAt   DateTime @default(now()) @map("updated_at")
 
-    createdAt DateTime @default(now()) @map("created_at")
-    updatedAt DateTime @default(now()) @map("updated_at")
-
-    @@map("expense")
+    @@map("transaction")
 }
 
 model AccessLog {
@@ -88,23 +87,21 @@ model AccessLog {
     user    User @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
     status  String @default("SUCCESS")
     createdAt   DateTime @default(now())
-
     @@map("access_log") 
 }
-
 model Category {
     id  String @id @default(uuid())
     name String
     subCategories SubCategory[]
-
+    transactions Transaction[]
     @@map("category")
 }
-
 model SubCategory {
     id  String @id @default(uuid())
     name String
     categoryId String @map("category_id")
     category Category @relation(fields: [categoryId], references: [id])
+    transactions Transaction[]
     
     @@map("sub_category")
 }
