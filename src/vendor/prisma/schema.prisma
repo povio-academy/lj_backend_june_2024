@@ -14,11 +14,12 @@ model User {
     email     String @unique
     password  String
     roleId    String @map("role_id")
-    role      Role   @relation(fields: [roleId], references: [id], onUpdate: Cascade)
+    role      Role   @relation(fields: [roleId], references: [id], onUpdate: Cascade) 
     isDeleted Boolean @default(false) @map("is_deleted")
     teams     TeamMember[]
     transactions Transaction[]
     accessLogs AccessLog[]
+    invites   Invite[]
     
     createdAt DateTime @default(now()) @map("created_at")
     updatedAt DateTime @default(now()) @map("updated_at")
@@ -47,6 +48,8 @@ model TeamMember {
     userId String @map("user_id")
     user User @relation(fields: [userId], references: [id], onUpdate: Cascade)
     isAdmin Boolean @default(false) @map("is_admin")
+    isDeleted Boolean @default(false) @map("is_deleted")
+    invites InviteTeam[]
 
     createdAt DateTime @default(now()) @map("created_at")
     updatedAt DateTime @default(now()) @map("updated_at")
@@ -152,3 +155,32 @@ model TransactionImage {
 
     @@map("transaction_image")
 }
+
+model Invite {
+    id  String @id @default(uuid())
+    email String
+    idInviter String @map("id_inviter")
+    inviter User @relation(fields: [idInviter], references: [id], onUpdate: Cascade)
+    status String @default("PENDING")
+    isDeleted Boolean @default(false) @map("is_deleted")
+
+    createdAt DateTime @default(now()) @map("created_at")
+    updatedAt DateTime @default(now()) @map("updated_at")
+
+    @@map("invite")
+}
+
+model InviteTeam {
+    id String @id @default(uuid())
+    email String
+    idInviter String @map("id_inviter")
+    inviter TeamMember @relation(fields: [idInviter], references: [id], onUpdate: Cascade)
+    status String @default("PENDING")
+    isDeleted Boolean @default(false) @map("is_deleted")
+
+    createdAt DateTime @default(now()) @map("created_at")
+    updatedAt DateTime @default(now()) @map("updated_at")
+    
+    @@map("invite_team")
+}
+
