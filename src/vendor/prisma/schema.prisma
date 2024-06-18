@@ -81,10 +81,8 @@ model Transaction {
     isDeleted   Boolean @default(false) @map("is_deleted")
     transactionImages TransactionImage[]
     note String?
-    amount  Float
-    type    String
-    status  String
-    reference   String
+    amount  Float @default(0)
+    type    TransactionType @default(INCOME)
 
     createdAt   DateTime @default(now()) @map("created_at")
     updatedAt   DateTime @default(now()) @map("updated_at")
@@ -184,3 +182,7 @@ model InviteTeam {
     @@map("invite_team")
 }
 
+enum TransactionType {
+    INCOME
+    EXPENSE
+}
