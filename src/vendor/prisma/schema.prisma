@@ -15,6 +15,7 @@ model User {
     password  String
     roleId    String @map("role_id")
     role      Role   @relation(fields: [roleId], references: [id])
+    isDeleted Boolean @default(false) @map("is_deleted")
     teams     TeamMember[]
     transactions Transaction[]
     accessLogs AccessLog[]
@@ -29,6 +30,7 @@ model Team  {
     id String @id @default(uuid())
     name String
     description String?
+    isDeleted Boolean @default(false) @map("is_deleted")
     members TeamMember[] @relation
     transactions Transaction[]
     
@@ -70,10 +72,14 @@ model Transaction {
     category    Category? @relation(fields: [categoryId], references: [id])
     subCategoryId   String? @map("sub_category_id")
     subCategory SubCategory? @relation(fields: [subCategoryId], references: [id])
+    isDeleted   Boolean @default(false) @map("is_deleted")
+    images  Image[]
+    note String?
     amount  Float
     type    String
     status  String
     reference   String
+    
     createdAt   DateTime @default(now()) @map("created_at")
     updatedAt   DateTime @default(now()) @map("updated_at")
 
@@ -89,6 +95,7 @@ model AccessLog {
     createdAt   DateTime @default(now())
     @@map("access_log") 
 }
+
 model Category {
     id  String @id @default(uuid())
     name String
@@ -96,6 +103,7 @@ model Category {
     transactions Transaction[]
     @@map("category")
 }
+
 model SubCategory {
     id  String @id @default(uuid())
     name String
@@ -104,4 +112,19 @@ model SubCategory {
     transactions Transaction[]
     
     @@map("sub_category")
+}
+
+model Image {
+    id  String @id @default(uuid())
+    url String
+    userId String @map("user_id")
+    description String?
+    transactionId String @map("transaction_id")
+    transaction Transaction @relation(fields: [transactionId], references: [id])
+    isDeleted Boolean @default(false) @map("is_deleted")
+
+    createdAt DateTime @default(now()) @map("created_at")
+    updatedAt DateTime @default(now()) @map("updated_at")
+
+    @@map("image")
 }
