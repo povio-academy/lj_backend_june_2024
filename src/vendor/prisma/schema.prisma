@@ -18,7 +18,7 @@ model User {
     teams     TeamMember[]
     transactions Transaction[]
     recurringTransactionRules RecurringTransactionRule[]
-    accessLogs AccessLog[]
+    accessLogs AuditLog[]
     invites   Invite[]
     
     createdAt DateTime @default(now()) @map("created_at")
@@ -110,17 +110,19 @@ model RecurringTransactionRule {
     @@map("recurring_transaction_rule")
 }
 
-model AccessLog {
+model AuditLog {
     id  String @id @default(uuid())
     ipAddress   String? @map("ip_address")
     userId  String @map("user_id")
     user    User @relation(fields: [userId], references: [id], onUpdate: Cascade)
+    event   String
+    eventDescription String? @map("event_description")
     status  ActionStatus @default(SUCCESS)
 
     createdAt   DateTime @default(now()) @map("created_at")
     updatedAt   DateTime @default(now()) @map("updated_at")
 
-    @@map("access_log") 
+    @@map("audit_log")
 }
 
 model Category {
