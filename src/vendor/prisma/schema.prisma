@@ -114,6 +114,7 @@ model RecurringTransactionRule {
     nextRunScheduledAt DateTime @map("next_run_scheduled_at")
     lastRanAt DateTime? @map("last_ran_at")
     transactions Transaction[]
+    status RecurringExpenseStatus @default(PENDING)
 
     createdAt DateTime @default(now()) @map("created_at")
     updatedAt DateTime @default(now()) @map("updated_at")
@@ -230,4 +231,10 @@ enum InviteStatus {
 enum ActionStatus {
     SUCCESS
     FAILED
+}
+
+enum RecurringExpenseStatus {
+    PENDING
+    APPROVED
+    REJECTED
 }
