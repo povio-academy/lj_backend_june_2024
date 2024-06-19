@@ -13,8 +13,7 @@ model User {
     lastName  String @map("last_name")
     email     String @unique
     password  String
-    roleId    String @map("role_id")
-    role      Role   @relation(fields: [roleId], references: [id], onUpdate: Cascade) 
+    role     UserRole @default(PENDING)
     isDeleted Boolean @default(false) @map("is_deleted")
     teams     TeamMember[]
     transactions Transaction[]
@@ -57,17 +56,6 @@ model TeamMember {
     updatedAt DateTime @default(now()) @map("updated_at")
 
     @@map("team_member")
-}
-
-model Role {
-    id  String @id @default(uuid())
-    name String
-    users User[]
-
-    createdAt DateTime @default(now()) @map("created_at")
-    updatedAt DateTime @default(now()) @map("updated_at")
-
-    @@map("role")
 }
 
 model Transaction {
@@ -213,6 +201,13 @@ model InviteTeam {
     updatedAt DateTime @default(now()) @map("updated_at")
     
     @@map("invite_team")
+}
+
+enum UserRole {
+    ADMIN
+    USER
+    DENIED
+    PENDING
 }
 
 enum TransactionType {
