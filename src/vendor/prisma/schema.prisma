@@ -81,6 +81,7 @@ model Transaction {
     subCategoryId   String? @map("sub_category_id")
     subCategory SubCategory? @relation(fields: [subCategoryId], references: [id], onUpdate: Cascade)
     isDeleted   Boolean @default(false) @map("is_deleted")
+    status  TransactionStatus? 
     transactionImages TransactionImage[]
     note String?
     amount  Float @default(0)
@@ -114,8 +115,6 @@ model RecurringTransactionRule {
     nextRunScheduledAt DateTime @map("next_run_scheduled_at")
     lastRanAt DateTime? @map("last_ran_at")
     transactions Transaction[]
-    status RecurringExpenseStatus @default(PENDING)
-
     createdAt DateTime @default(now()) @map("created_at")
     updatedAt DateTime @default(now()) @map("updated_at")
 
@@ -233,7 +232,7 @@ enum ActionStatus {
     FAILED
 }
 
-enum RecurringExpenseStatus {
+enum TransactionStatus {
     PENDING
     APPROVED
     REJECTED
