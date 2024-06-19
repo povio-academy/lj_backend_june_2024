@@ -165,7 +165,6 @@ model SubCategory {
 model Image {
     id  String @id @default(uuid())
     url String
-    description String?
     transactionImages TransactionImage[]
     isDeleted Boolean @default(false) @map("is_deleted")
 
