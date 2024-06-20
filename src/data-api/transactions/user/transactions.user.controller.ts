@@ -5,7 +5,6 @@ import { CreateTransactionUserDto } from './dto/create-transaction.user.dto';
 import { TransactionUserResDto } from './dto/transaction.user.res.dto';
 
 @ApiTags('Transactions')
-@Injectable()
 @Controller(USER_API_V1_PATH + '/transactions/')
 export class TransactionsUserController {
   constructor() {}

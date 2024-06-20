@@ -7,6 +7,7 @@ import { AuthModule } from '~modules/auth/auth.module';
 import { ClsModule } from '~common/cls/cls.module';
 import { PrismaModule } from '~vendor/prisma/prisma.module';
 import { TransactionsUserController } from '~data-api/transactions/user/transactions.user.controller';
+import { TransactionsUserModule } from '~data-api/transactions/user/transactions.user.module';
 
 @Module({
   imports: [
@@ -16,7 +17,7 @@ import { TransactionsUserController } from '~data-api/transactions/user/transact
     LoggerModule,
     AuthModule,
     PrismaModule,
-    TransactionsUserController,
+    TransactionsUserModule,
   ],
   controllers: [AppController],
 })
