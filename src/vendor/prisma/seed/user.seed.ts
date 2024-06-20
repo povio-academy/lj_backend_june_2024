@@ -1,4 +1,4 @@
-/*import { faker } from '@faker-js/faker';
+import { faker } from '@faker-js/faker';
 import { INestApplication } from '@nestjs/common';
 
 export const usersSeed = [
@@ -14,4 +14,3 @@ export const usersSeed = [
 export const userSeed = async (app: INestApplication) => {
     // Write your seed logic here
 };
-*/

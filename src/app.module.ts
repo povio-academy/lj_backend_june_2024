@@ -8,6 +8,9 @@ import { ClsModule } from '~common/cls/cls.module';
 import { PrismaModule } from '~vendor/prisma/prisma.module';
 import { TransactionsUserController } from '~data-api/transactions/user/transactions.user.controller';
 import { TransactionsUserModule } from '~data-api/transactions/user/transactions.user.module';
+import { CategoriesAdminDataApiModule } from '~data-api/categories/admin/categories.admin.data-api.module';
+import { CategoriesUserDataApiModule } from '~data-api/categories/user/categories.user.data-api.module';
+import { AuthDataApiModule } from '~data-api/auth/auth.data-api.module';
 
 @Module({
   imports: [
@@ -18,6 +21,9 @@ import { TransactionsUserModule } from '~data-api/transactions/user/transactions
     AuthModule,
     PrismaModule,
     TransactionsUserModule,
+    CategoriesAdminDataApiModule,
+    CategoriesUserDataApiModule,
+    AuthDataApiModule
   ],
   controllers: [AppController],
 })
