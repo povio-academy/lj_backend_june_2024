@@ -6,7 +6,6 @@ import { LoggerModule } from '~common/logging/logger.module';
 import { AuthModule } from '~modules/auth/auth.module';
 import { ClsModule } from '~common/cls/cls.module';
 import { PrismaModule } from '~vendor/prisma/prisma.module';
-import { TransactionsUserController } from '~data-api/transactions/user/transactions.user.controller';
 import { TransactionsUserModule } from '~data-api/transactions/user/transactions.user.module';
 import { CategoriesAdminDataApiModule } from '~data-api/categories/admin/categories.admin.data-api.module';
 import { CategoriesUserDataApiModule } from '~data-api/categories/user/categories.user.data-api.module';
@@ -25,7 +24,7 @@ import { SubcategoriesAdminDataApiModule } from '~data-api/subcategories/admin/s
     CategoriesAdminDataApiModule,
     CategoriesUserDataApiModule,
     SubcategoriesAdminDataApiModule,
-    AuthDataApiModule
+    AuthDataApiModule,
   ],
   controllers: [AppController],
 })
