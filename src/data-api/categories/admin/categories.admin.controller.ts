@@ -24,4 +24,10 @@ export class CategoriesAdminController {
     ) : Promise<CategoryAdminResDto> {
         return new CategoryAdminResDto('id', 'name');
     }
+
+    @ApiOperation({ summary: 'Get all categories' })
+    @Get()
+    async getCategories() : Promise<CategoryAdminResDto[]> {
+        return [new CategoryAdminResDto('id', 'name')];
+    }
 }
