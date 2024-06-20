@@ -7,6 +7,7 @@ import { AuthModule } from '~modules/auth/auth.module';
 import { ClsModule } from '~common/cls/cls.module';
 import { PrismaModule } from '~vendor/prisma/prisma.module';
 import { CategoriesAdminDataApiModule } from '~data-api/categories/admin/categories.admin.data-api.module';
+import { CategoriesUserDataApiModule } from '~data-api/categories/user/categories.user.data-api.module';
 
 @Module({
   imports: [
@@ -16,7 +17,8 @@ import { CategoriesAdminDataApiModule } from '~data-api/categories/admin/categor
     LoggerModule,
     AuthModule,
     PrismaModule,
-    CategoriesAdminDataApiModule
+    CategoriesAdminDataApiModule,
+    CategoriesUserDataApiModule
   ],
   controllers: [AppController],
 })
