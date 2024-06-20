@@ -95,7 +95,7 @@ model RecurringTransactionRule {
     subCategory SubCategory? @relation(fields: [subCategoryId], references: [id], onUpdate: Cascade)
     note String?
     amount Float
-    type TransactionType
+    type TransactionType @default(EXPENSE)
     startDate DateTime @map("start_date")
     endDate DateTime? @map("end_date")
     cron String
