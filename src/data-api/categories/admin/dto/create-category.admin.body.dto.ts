@@ -4,6 +4,6 @@ import { IsNotEmpty, IsString } from "class-validator";
 export class CreateCategoryAdminBodyDto {
     @IsString()
     @IsNotEmpty()
-    @ApiProperty({description: 'Category name'})
+    @ApiProperty({description: 'Category name', example: 'Groceries'})
     name: string;
 }
