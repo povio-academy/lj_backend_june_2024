@@ -19,7 +19,7 @@ import { AuthDataApiModule } from '~data-api/auth/auth.data-api.module';
     AuthModule,
     PrismaModule,
     CategoriesAdminDataApiModule,
-    CategoriesUserDataApiModule
+    CategoriesUserDataApiModule,
     AuthDataApiModule
   ],
   controllers: [AppController],
