@@ -1,3 +1,4 @@
+/*
 import { Module } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { ConfigModule } from '~common/config/config.module';
@@ -19,3 +20,4 @@ async function bootstrap() {
 }
 
 bootstrap();
+*/

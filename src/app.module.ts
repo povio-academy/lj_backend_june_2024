@@ -6,6 +6,7 @@ import { LoggerModule } from '~common/logging/logger.module';
 import { AuthModule } from '~modules/auth/auth.module';
 import { ClsModule } from '~common/cls/cls.module';
 import { PrismaModule } from '~vendor/prisma/prisma.module';
+import { TeamsModule } from '~data-api/teams/teams.module';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { PrismaModule } from '~vendor/prisma/prisma.module';
     LoggerModule,
     AuthModule,
     PrismaModule,
+    TeamsModule,
   ],
   controllers: [AppController],
 })
