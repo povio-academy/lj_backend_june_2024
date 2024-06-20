@@ -32,7 +32,7 @@ model Team  {
     name String
     description String?
     isDeleted Boolean @default(false) @map("is_deleted")
-    members TeamMember[] @relation
+    members TeamMember[]
     transactions Transaction[]
     recurringTransactionRules RecurringTransactionRule[]
     
@@ -103,6 +103,7 @@ model RecurringTransactionRule {
     nextRunScheduledAt DateTime @map("next_run_scheduled_at")
     lastRanAt DateTime? @map("last_ran_at")
     transactions Transaction[]
+    
     createdAt DateTime @default(now()) @map("created_at")
     updatedAt DateTime @default(now()) @map("updated_at")
 
