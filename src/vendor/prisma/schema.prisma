@@ -11,6 +11,226 @@ model User {
     id        String @id @default(uuid())
     firstName String @map("first_name")
     lastName  String @map("last_name")
+    email     String @unique
+    password  String
+    role     UserRole @default(PENDING)
+    isDeleted Boolean @default(false) @map("is_deleted")
+    teams     TeamMember[]
+    transactions Transaction[]
+    recurringTransactionRules RecurringTransactionRule[]
+    accessLogs AuditLog[]
+    invites   Invite[]
+    
+    createdAt DateTime @default(now()) @map("created_at")
+    updatedAt DateTime @default(now()) @map("updated_at")
 
     @@map("user")
+}
+
+model Team  {
+    id String @id @default(uuid())
+    name String
+    description String?
+    isDeleted Boolean @default(false) @map("is_deleted")
+    members TeamMember[]
+    transactions Transaction[]
+    recurringTransactionRules RecurringTransactionRule[]
+    
+    createdAt DateTime @default(now()) @map("created_at")
+    updatedAt DateTime @default(now()) @map("updated_at")
+
+    @@map("team")
+}
+
+model TeamMember {
+    id String @id @default(uuid())
+    teamId String @map("team_id")
+    team Team @relation(fields: [teamId], references: [id], onUpdate: Cascade)
+    userId String @map("user_id")
+    user User @relation(fields: [userId], references: [id], onUpdate: Cascade)
+    isAdmin Boolean @default(false) @map("is_admin")
+    isDeleted Boolean @default(false) @map("is_deleted")
+    invites InviteTeam[]
+
+    createdAt DateTime @default(now()) @map("created_at")
+    updatedAt DateTime @default(now()) @map("updated_at")
+
+    @@map("team_member")
+}
+
+model Transaction {
+    id  String @id @default(uuid())
+    userId  String @map("user_id")
+    user    User @relation(fields: [userId], references: [id], onUpdate: Cascade)
+    teamId String? @map("team_id")
+    team    Team? @relation(fields: [teamId], references: [id], onUpdate: Cascade)
+    categoryId  String @map("category_id")
+    category    Category @relation(fields: [categoryId], references: [id], onUpdate: Cascade)
+    subCategoryId   String? @map("sub_category_id")
+    subCategory SubCategory? @relation(fields: [subCategoryId], references: [id], onUpdate: Cascade)
+    isDeleted   Boolean @default(false) @map("is_deleted")
+    status  TransactionStatus? 
+    transactionImages TransactionImage[]
+    note String?
+    amount  Float @default(0)
+    type    TransactionType @default(INCOME)
+    generatedBy String? @map("generated_by")
+    recurringTransactionRule RecurringTransactionRule? @relation(fields: [generatedBy], references: [id], onUpdate: Cascade)
+
+    createdAt   DateTime @default(now()) @map("created_at")
+    updatedAt   DateTime @default(now()) @map("updated_at")
+
+    @@map("transaction")
+}
+
+model RecurringTransactionRule {
+    id String @id @default(uuid())
+    userId String @map("user_id")
+    user User @relation(fields: [userId], references: [id], onUpdate: Cascade)
+    teamId String? @map("team_id")
+    team Team? @relation(fields: [teamId], references: [id], onUpdate: Cascade)
+    categoryId String @map("category_id")
+    category Category @relation(fields: [categoryId], references: [id], onUpdate: Cascade)
+    subCategoryId String? @map("sub_category_id")
+    subCategory SubCategory? @relation(fields: [subCategoryId], references: [id], onUpdate: Cascade)
+    note String?
+    amount Float
+    type TransactionType @default(EXPENSE)
+    startDate DateTime @map("start_date")
+    endDate DateTime? @map("end_date")
+    cron String
+    isDeleted Boolean @default(false) @map("is_deleted")
+    nextRunScheduledAt DateTime @map("next_run_scheduled_at")
+    lastRanAt DateTime? @map("last_ran_at")
+    transactions Transaction[]
+    
+    createdAt DateTime @default(now()) @map("created_at")
+    updatedAt DateTime @default(now()) @map("updated_at")
+
+
+    @@map("recurring_transaction_rule")
+}
+
+model AuditLog {
+    id  String @id @default(uuid())
+    ipAddress   String? @map("ip_address")
+    userId  String @map("user_id")
+    user    User @relation(fields: [userId], references: [id], onUpdate: Cascade)
+    event   String
+    eventDescription String? @map("event_description")
+    status  ActionStatus @default(SUCCESS)
+
+    createdAt   DateTime @default(now()) @map("created_at")
+    updatedAt   DateTime @default(now()) @map("updated_at")
+
+    @@map("audit_log")
+}
+
+model Category {
+    id  String @id @default(uuid())
+    name String
+    subCategories SubCategory[]
+    transactions Transaction[]
+    recurringTransactionRules RecurringTransactionRule[]
+
+    createdAt DateTime @default(now()) @map("created_at")
+    updatedAt DateTime @default(now()) @map("updated_at")
+
+    @@map("category")
+}
+
+model SubCategory {
+    id  String @id @default(uuid())
+    name String
+    categoryId String @map("category_id")
+    category Category @relation(fields: [categoryId], references: [id], onUpdate: Cascade)
+    transactions Transaction[]
+    recurringTransactionRules RecurringTransactionRule[]
+
+    createdAt DateTime @default(now()) @map("created_at")
+    updatedAt DateTime @default(now()) @map("updated_at")
+    
+    @@map("sub_category")
+}
+
+model Image {
+    id  String @id @default(uuid())
+    url String
+    transactionImages TransactionImage[]
+    isDeleted Boolean @default(false) @map("is_deleted")
+
+    createdAt DateTime @default(now()) @map("created_at")
+    updatedAt DateTime @default(now()) @map("updated_at")
+
+    @@map("image")
+}
+
+model TransactionImage {
+    id  String @id @default(uuid())
+    transactionId String @map("transaction_id")
+    transaction Transaction @relation(fields: [transactionId], references: [id], onUpdate: Cascade)
+    imageId String @map("image_id")
+    image Image @relation(fields: [imageId], references: [id], onUpdate: Cascade)
+
+    createdAt DateTime @default(now()) @map("created_at")
+    updatedAt DateTime @default(now()) @map("updated_at")
+
+    @@map("transaction_image")
+}
+
+model Invite {
+    id  String @id @default(uuid())
+    email String
+    idInviter String @map("id_inviter")
+    inviter User @relation(fields: [idInviter], references: [id], onUpdate: Cascade)
+    status InviteStatus @default(PENDING)
+    isDeleted Boolean @default(false) @map("is_deleted")
+
+    createdAt DateTime @default(now()) @map("created_at")
+    updatedAt DateTime @default(now()) @map("updated_at")
+
+    @@map("invite")
+}
+
+model InviteTeam {
+    id String @id @default(uuid())
+    email String
+    idInviter String @map("id_inviter")
+    inviter TeamMember @relation(fields: [idInviter], references: [id], onUpdate: Cascade)
+    status InviteStatus @default(PENDING)
+    isDeleted Boolean @default(false) @map("is_deleted")
+
+    createdAt DateTime @default(now()) @map("created_at")
+    updatedAt DateTime @default(now()) @map("updated_at")
+    
+    @@map("invite_team")
+}
+
+enum UserRole {
+    ADMIN
+    USER
+    DENIED
+    PENDING
+}
+
+enum TransactionType {
+    INCOME
+    EXPENSE
+}
+
+enum InviteStatus {
+    PENDING
+    ACCEPTED
+    EXPIRED
+}
+
+enum ActionStatus {
+    SUCCESS
+    FAILED
+}
+
+enum TransactionStatus {
+    PENDING
+    APPROVED
+    REJECTED
 }
