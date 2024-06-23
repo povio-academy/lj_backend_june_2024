@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import {
+  IsEnum,
   IsNotEmpty,
   IsNumber,
   IsPositive,
@@ -15,7 +16,7 @@ export class CreateTransactionUserDto {
     example: 'c6895fef-5456-4665-aece-14c2ee1e2fe0',
   })
   @IsUUID()
-  teamId?: string;
+  readonly teamId?: string;
 
   @ApiProperty({
     description: 'Category ID',
@@ -23,32 +24,33 @@ export class CreateTransactionUserDto {
   })
   @IsUUID()
   @IsNotEmpty()
-  categoryId: string;
+  readonly categoryId: string;
 
   @ApiProperty({
     description: 'Subcategory ID',
     example: 'c6895fef-5456-4665-aece-14c2ee1e2fe0',
   })
   @IsUUID()
-  subcategoryId?: string;
+  readonly subcategoryId?: string;
 
   @ApiProperty({ description: 'Amount', example: 100 })
   @IsNumber()
   @IsPositive()
   @IsNotEmpty()
-  amount: number;
+  readonly amount: number;
 
   @ApiProperty({ description: 'Note', example: 'This is a note' })
   @IsString()
   @MaxLength(500)
-  note?: string;
+  readonly note?: string;
 
   @ApiProperty({
     description: 'Transaction type',
     example: TransactionType.INCOME,
   })
   @IsNotEmpty()
-  type: TransactionType;
+  @IsEnum(TransactionType)
+  readonly type: TransactionType;
 
   constructor() {}
 }
