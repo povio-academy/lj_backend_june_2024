@@ -3,15 +3,24 @@ import { TransactionType } from '@prisma/client';
 import { Expose } from 'class-transformer';
 
 export class TransactionUserResDto {
-  @ApiProperty({ description: 'Transaction ID', example: '1' })
+  @ApiProperty({
+    description: 'Transaction ID',
+    example: 'c6895fef-5456-4665-aece-14c2ee1e2fe0',
+  })
   @Expose()
   teamId?: string;
 
-  @ApiProperty({ description: 'Category ID', example: '1' })
+  @ApiProperty({
+    description: 'Category ID',
+    example: 'c6895fef-5456-4665-aece-14c2ee1e2fe0',
+  })
   @Expose()
   categoryId: string;
 
-  @ApiProperty({ description: 'Subcategory ID', example: '1' })
+  @ApiProperty({
+    description: 'Subcategory ID',
+    example: 'c6895fef-5456-4665-aece-14c2ee1e2fe0',
+  })
   @Expose()
   subcategoryId?: string;
 
