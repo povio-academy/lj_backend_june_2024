@@ -1,12 +1,18 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { TransactionType } from '@prisma/client';
+import { Type } from 'class-transformer';
 import {
+  ArrayMaxSize,
+  ArrayMinSize,
+  IsEnum,
   IsNumber,
   IsPositive,
   IsString,
   IsUUID,
   MaxLength,
+  ValidateNested,
 } from 'class-validator';
+import { ImageIdDto } from './image-id.user.dto';
 
 export class ChangeTransactionUserDto {
   @ApiProperty({
@@ -37,6 +43,7 @@ export class ChangeTransactionUserDto {
     description: 'Transaction type',
     example: TransactionType.INCOME,
   })
+  @IsEnum(TransactionType)
   type?: TransactionType;
 
   @ApiProperty({
@@ -46,7 +53,11 @@ export class ChangeTransactionUserDto {
       'b7895fef-1234-4678-bcde-56d7ee3e4gh1',
     ],
   })
-  imagesIds?: string[];
+  @ArrayMinSize(1)
+  @ArrayMaxSize(20)
+  @ValidateNested({ each: true })
+  @Type(() => ImageIdDto)
+  imagesIds?: ImageIdDto[];
 
   constructor() {}
 }

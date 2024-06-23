@@ -1,4 +1,4 @@
-import { Body, Controller, HttpCode, Injectable, Post } from '@nestjs/common';
+import { Body, Controller, HttpCode, Param, Post } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { USER_API_V1_PATH } from '~common/http/http.constant';
 import { CreateTransactionUserDto } from './dto/create-transaction.user.dto';
@@ -25,6 +25,7 @@ export class TransactionsUserController {
   @Post(':id')
   @HttpCode(200)
   async updateTransaction(
+    @Param('id') id: string,
     @Body() changeTransactionUserDto: ChangeTransactionUserDto,
-  ) {}
+  ): Promise<void> {}
 }
