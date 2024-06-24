@@ -1,15 +1,19 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { Expose } from 'class-transformer';
 import {
     IsArray,
     IsBoolean,
     IsEmail,
+    IsOptional,
     IsString,
     IsStrongPassword,
 } from 'class-validator';
+
 import { UserRole } from '~common/enums';
 
 export class UpdateUserAdminReqDto {
     @ApiProperty({ description: 'Users new first name', example: 'John' })
+    @IsOptional()
     @IsString()
     firstName?: string;
 
@@ -17,6 +21,7 @@ export class UpdateUserAdminReqDto {
         description: 'Users new last name',
         example: 'Walker',
     })
+    @IsOptional()
     @IsString()
     lastName?: string;
 
@@ -24,9 +29,16 @@ export class UpdateUserAdminReqDto {
         description: 'Users new email',
         example: 'test123@mail.com',
     })
+    @IsOptional()
     @IsEmail()
     email?: string;
 
+    @ApiProperty({
+        description:
+            'New password -> minLength: 8, minLowerCase: 1, minNumbers: 1, minSymbols: 1, minUppercase: 1',
+        example: 'Password123!',
+    })
+    @IsOptional()
     @IsStrongPassword({
         minLength: 8,
         minLowercase: 1,
@@ -34,25 +46,20 @@ export class UpdateUserAdminReqDto {
         minSymbols: 1,
         minUppercase: 1,
     })
-    @ApiProperty({
-        description:
-            'New password -> minLength: 8, minLowerCase: 1, minNumbers: 1, minSymbols: 1, minUppercase: 1',
-        example: 'Password123!',
-    })
-    @IsStrongPassword()
     password?: string;
 
     @ApiProperty({
         description: 'Users new role',
         example: UserRole.DENNIED,
     })
+    @IsOptional()
     role?: UserRole;
 
-    //transactions array
     @ApiProperty({
         description: 'Users modified transactions',
         example: ['123e4567-e89b-12d3-a456-426614174000'],
     })
+    @IsOptional()
     @IsArray()
     transactions?: [string];
 
@@ -60,6 +67,7 @@ export class UpdateUserAdminReqDto {
         description: 'User soft deleted or undeleted',
         example: false,
     })
+    @IsOptional()
     @IsBoolean()
     isDeleted?: boolean;
 }

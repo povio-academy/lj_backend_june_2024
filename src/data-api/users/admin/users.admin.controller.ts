@@ -4,6 +4,7 @@ import {
     Get,
     HttpCode,
     Injectable,
+    Param,
     Patch,
     Post,
 } from '@nestjs/common';
@@ -32,9 +33,14 @@ export class UsersAdminController {
         //add pagination
         return new UsersAdminResDto();
     }
+
+    @ApiOperation({ summary: 'Update/Delete existing users data' })
     @Patch(':id')
     @HttpCode(200)
-    async updateUser(@Body() body: UpdateUserAdminReqDto) {
+    async updateUser(
+        @Body() body: UpdateUserAdminReqDto,
+        @Param('id') userId: string,
+    ) {
         //delete and update user data
     }
 }
