@@ -4,12 +4,14 @@ import {
     Get,
     HttpCode,
     Injectable,
+    Patch,
     Post,
 } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { API_V1_ADMIN_PATH } from '~common/http/http.constant';
 import { InviteReqDto } from './dto/invite.req.dto';
 import { UsersAdminResDto } from './dto/users.admin.res.dto';
+import { UpdateUserAdminReqDto } from './dto/update.user.admin.req.dto';
 
 @Injectable()
 @Controller(`${API_V1_ADMIN_PATH}/users`)
@@ -29,5 +31,10 @@ export class UsersAdminController {
     async getUsers(): Promise<UsersAdminResDto> {
         //add pagination
         return new UsersAdminResDto();
+    }
+    @Patch(':id')
+    @HttpCode(200)
+    async updateUser(@Body() body: UpdateUserAdminReqDto) {
+        //delete and update user data
     }
 }

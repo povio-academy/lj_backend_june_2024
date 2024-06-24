@@ -6,6 +6,7 @@ import {
     IsStrongPassword,
     MaxLength,
 } from 'class-validator';
+import { OBJECT_NAME_MAX_LENGTH } from '~common/domain.constants';
 
 export class RegisterReqDto {
     @IsEmail()
@@ -31,7 +32,7 @@ export class RegisterReqDto {
 
     @IsString()
     @IsNotEmpty()
-    @MaxLength(50)
+    @MaxLength(OBJECT_NAME_MAX_LENGTH)
     @ApiProperty({
         description: "User's first name",
         example: 'John',
@@ -40,7 +41,7 @@ export class RegisterReqDto {
 
     @IsString()
     @IsNotEmpty()
-    @MaxLength(50)
+    @MaxLength(OBJECT_NAME_MAX_LENGTH)
     @ApiProperty({
         description: "User's last name",
         example: 'Walker',
