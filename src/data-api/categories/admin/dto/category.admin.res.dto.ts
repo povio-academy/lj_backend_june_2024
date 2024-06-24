@@ -1,7 +1,6 @@
-import { Expose } from "class-transformer";
+import { Expose } from 'class-transformer';
 
 export class CategoryAdminResDto {
-
     @Expose()
     id: string;
 

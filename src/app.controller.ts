@@ -5,8 +5,8 @@ import { ApiExcludeController } from '@nestjs/swagger';
 @ApiExcludeController()
 @Controller()
 export class AppController {
-  @Get()
-  healthCheck() {
-    return 'Ok';
-  }
+    @Get()
+    healthCheck() {
+        return 'Ok';
+    }
 }

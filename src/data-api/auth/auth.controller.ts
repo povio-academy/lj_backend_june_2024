@@ -8,20 +8,20 @@ import { JwtDto } from './dto/Jwt.dto';
 @Injectable()
 @Controller('/auth')
 export class AuthController {
-  constructor() {}
+    constructor() {}
 
-  @ApiOperation({
-    summary: 'Register a new user',
-  })
-  @Post('/register')
-  @HttpCode(204)
-  async register(@Body() body: RegisterReqDto) {}
+    @ApiOperation({
+        summary: 'Register a new user',
+    })
+    @Post('/register')
+    @HttpCode(204)
+    async register(@Body() body: RegisterReqDto) {}
 
-  @ApiOperation({
-    summary: 'Login with an existing user',
-  })
-  @Post('/login')
-  async login(@Body() body: LoginReqDto): Promise<JwtDto> {
-    return new JwtDto('token');
-  }
+    @ApiOperation({
+        summary: 'Login with an existing user',
+    })
+    @Post('/login')
+    async login(@Body() body: LoginReqDto): Promise<JwtDto> {
+        return new JwtDto('token');
+    }
 }

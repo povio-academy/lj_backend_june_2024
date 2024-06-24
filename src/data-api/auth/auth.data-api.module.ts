@@ -3,6 +3,6 @@ import { AuthController } from './auth.controller';
 
 @Global()
 @Module({
-  controllers: [AuthController],
+    controllers: [AuthController],
 })
 export class AuthDataApiModule {}
