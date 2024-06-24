@@ -1,10 +1,10 @@
 import { Expose } from 'class-transformer';
 
 export class JwtDto {
-  @Expose()
-  token: string;
+    @Expose()
+    token: string;
 
-  constructor(token: string) {
-    this.token = token;
-  }
+    constructor(token: string) {
+        this.token = token;
+    }
 }
