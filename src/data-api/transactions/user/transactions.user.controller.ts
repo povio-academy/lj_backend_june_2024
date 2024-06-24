@@ -76,7 +76,16 @@ export class TransactionsUserController {
     @ApiOperation({ summary: 'Get all user transactions' })
     @Get('/user')
     @HttpCode(200)
-    async getTransactionUser(): Promise<TransactionGetResUserDto> {
+    async getTransactionsUser(): Promise<TransactionGetResUserDto> {
+        return new TransactionGetResUserDto();
+    }
+
+    @ApiOperation({ summary: 'Get all team transactions' })
+    @Get('/team/:id')
+    @HttpCode(200)
+    async getTransactionsTeam(
+        @Param('id') id: string,
+    ): Promise<TransactionGetResUserDto> {
         return new TransactionGetResUserDto();
     }
 }
