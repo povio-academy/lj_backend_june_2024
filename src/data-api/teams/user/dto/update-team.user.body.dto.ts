@@ -1,7 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
 import {
-    ArrayNotEmpty,
-    IsArray,
     IsBoolean,
     IsOptional,
     IsString,
@@ -29,15 +27,6 @@ export class UpdateTeamBodyDto {
     @IsOptional()
     @IsString()
     readonly description: string;
-
-    @ApiProperty({ description: 'Team members', example: ['Oliver', 'Emma'] })
-    @IsOptional()
-    @IsArray()
-    @ArrayNotEmpty()
-    @IsString({ each: true })
-    @MinLength(MIN_LENGTH, { each: true })
-    @MaxLength(MAX_LENGTH, { each: true })
-    readonly membersId: string[];
 
     @ApiProperty({ description: 'Team status', example: false })
     @IsOptional()
