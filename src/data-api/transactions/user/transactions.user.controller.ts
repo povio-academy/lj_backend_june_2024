@@ -1,5 +1,15 @@
-
-import { Body, Controller, Get, Header, HttpCode, Param, Patch, Post, Query, StreamableFile } from '@nestjs/common';
+import {
+    Body,
+    Controller,
+    HttpCode,
+    Param,
+    Patch,
+    Post,
+    Query,
+    Get,
+    StreamableFile,
+    Header,
+} from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { API_V1_USER_PATH } from '~common/http/http.constant';
 import { CreateTransactionUserDto } from './dto/create-transaction.user.dto';
@@ -7,6 +17,7 @@ import { TransactionUserResDto } from './dto/transaction.user.res.dto';
 import { UpdateTransactionUserDto } from './dto/update-transaction.user.dto';
 import { TransactionQueryUserDto } from './dto/transaction-search-query.user.dto';
 import { TransactionSearchResUserDto } from './dto/transaction-search.res.user.dto';
+import { TransactionGetResUserDto } from './dto/transaction-get.res.user.dto';
 import { GetTransactionReportUserDto } from './dto/get-transaction-report.user.dto';
 
 @ApiTags('Transactions')
@@ -21,8 +32,6 @@ export class TransactionsUserController {
         @Body() createTransactionUserDto: CreateTransactionUserDto,
     ): Promise<TransactionUserResDto> {
         return new TransactionUserResDto();
-        {
-        }
     }
 
     @ApiOperation({ summary: 'Update an existing transaction' })
@@ -32,6 +41,11 @@ export class TransactionsUserController {
         @Param('id') id: string,
         @Body() updateTransactionUserDto: UpdateTransactionUserDto,
     ): Promise<void> {}
+
+    @ApiOperation({ summary: 'Delete an existing transaction' })
+    @Patch(':id')
+    @HttpCode(200)
+    async deleteTransaction(@Param('id') id: string): Promise<void> {}
 
     @ApiOperation({
         summary: 'Get a report of transactions, based on parameters',
@@ -48,10 +62,6 @@ export class TransactionsUserController {
         );
         return new StreamableFile(buffer);
     }
-    @ApiOperation({ summary: 'Delete an existing transaction' })
-    @Patch(':id')
-    @HttpCode(200)
-    async deleteTransaction(@Param('id') id: string): Promise<void> {}
 
     @ApiOperation({ summary: 'Search transactions' })
     @Get()
@@ -61,5 +71,12 @@ export class TransactionsUserController {
     ): Promise<TransactionSearchResUserDto> {
         // get user id from JWT token
         return new TransactionSearchResUserDto();
+    }
+
+    @ApiOperation({ summary: 'Get all user transactions' })
+    @Get('/user')
+    @HttpCode(200)
+    async getTransactionUser(): Promise<TransactionGetResUserDto> {
+        return new TransactionGetResUserDto();
     }
 }
