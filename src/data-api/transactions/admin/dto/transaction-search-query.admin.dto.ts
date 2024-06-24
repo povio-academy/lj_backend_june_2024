@@ -7,9 +7,6 @@ import {
     IsUUID,
     ValidateNested,
 } from 'class-validator';
-import { UserIdAdminDto } from './user-id.admin.dto';
-import { Type } from 'class-transformer';
-import { TransactionIdAdminDto } from './transaction-id.admin.dto';
 
 export class TransactionQueryAdminDto {
     @ApiProperty({
@@ -22,8 +19,8 @@ export class TransactionQueryAdminDto {
     @ArrayMinSize(1)
     @ArrayMaxSize(200)
     @ValidateNested({ each: true })
-    @Type(() => TransactionIdAdminDto)
-    transactionIds?: TransactionIdAdminDto[];
+    @IsUUID(4, { each: true })
+    transactionIds?: string[];
 
     @ApiProperty({
         description: 'User id',
@@ -34,9 +31,8 @@ export class TransactionQueryAdminDto {
     })
     @ArrayMinSize(1)
     @ArrayMaxSize(20)
-    @ValidateNested({ each: true })
-    @Type(() => UserIdAdminDto)
-    userIds?: UserIdAdminDto[];
+    @IsUUID(4, { each: true })
+    userIds?: string[];
 
     @ApiProperty({
         description: 'Subategory id',

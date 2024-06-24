@@ -4,11 +4,11 @@ import { TransactionResAdminDto } from './transaction.res.admin.dto';
 import { TransactionSearchMetadataAdminDto } from './transaction-search-metadata.admin.dto';
 
 export class TransactionSearchResAdminDto {
-    @ApiProperty({ type: () => [TransactionResAdminDto] })
+    @ApiProperty({ type: [TransactionResAdminDto] })
     @Expose()
     transactions: TransactionResAdminDto[];
 
-    @ApiProperty({ type: () => TransactionSearchMetadataAdminDto })
+    @ApiProperty({ type: TransactionSearchMetadataAdminDto })
     @Expose()
     metadata: TransactionSearchMetadataAdminDto;
     constructor() {}
