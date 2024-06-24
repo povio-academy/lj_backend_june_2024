@@ -30,7 +30,7 @@ export class TeamsUserController {
     joinTeam(@Param('id') teamId: string) {
         // 1. Get userId from JWT token
         // 2. Check if user is invited into that team
-        // 3. When a user joins a team, he is a normal member
+        // 3. Join user in a team, when a user joins a team, he is a normal member
         return teamId;
     }
 
@@ -39,7 +39,16 @@ export class TeamsUserController {
     @Patch(':id')
     updateTeam(@Param('id') teamId: string, @Body() body: UpdateTeamBodyDto) {
         // 1. Check if user is team admin
-        // 2. Compare new and old memebers array
+        // 2. Update team data
         return { teamId, body };
+    }
+
+    @ApiOperation({ summary: 'Leave a team' })
+    @HttpCode(200)
+    @Patch(':id')
+    leaveTeam(@Param('id') teamId: string) {
+        // 1. Only normal users can leave a team
+        // 2. Set isDeleted to true
+        return teamId;
     }
 }
