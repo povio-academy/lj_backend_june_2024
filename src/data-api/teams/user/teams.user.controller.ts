@@ -19,4 +19,12 @@ export class TeamsUserController {
         // 4. Add invite in DB, separate from the app invites
         return { teamId, body };
     }
+
+    @Post(':id/join')
+    joinTeam(@Param('id') teamId: string) {
+        // 1. Get userId from JWT token
+        // 2. When a user joins a team, he is a normal member
+        // 3. Check if user is invited into that team
+        return teamId;
+    }
 }
