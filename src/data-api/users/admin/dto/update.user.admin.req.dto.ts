@@ -60,8 +60,8 @@ export class UpdateUserAdminReqDto {
         example: ['123e4567-e89b-12d3-a456-426614174000'],
     })
     @IsOptional()
-    @IsArray()
-    transactions?: [string];
+    @IsString({ each: true })
+    transactions?: string[];
 
     @ApiProperty({
         description: 'User soft deleted or undeleted',
