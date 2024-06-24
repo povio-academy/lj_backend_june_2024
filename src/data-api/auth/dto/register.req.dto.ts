@@ -1,15 +1,17 @@
-import { ApiProperty } from "@nestjs/swagger";
-import { Expose } from "class-transformer";
-import { IsEmail, IsNotEmpty, IsString, IsStrongPassword, MaxLength } from "class-validator";
+import { ApiProperty } from '@nestjs/swagger';
+import {
+  IsEmail,
+  IsNotEmpty,
+  IsString,
+  IsStrongPassword,
+  MaxLength,
+} from 'class-validator';
 
 export class RegisterReqDto {
-
   @IsEmail()
   @IsString()
   @IsNotEmpty()
-  @ApiProperty({ description: "New user's email",
-    example: "test@mail.com"
-  })
+  @ApiProperty({ description: "New user's email", example: 'test@mail.com' })
   email!: string;
 
   @IsStrongPassword({
@@ -17,13 +19,13 @@ export class RegisterReqDto {
     minLowercase: 1,
     minNumbers: 1,
     minSymbols: 1,
-    minUppercase: 1
+    minUppercase: 1,
   })
   @IsNotEmpty()
   @ApiProperty({
-    description : "minLength: 8, minLowerCase: 1, minNumbers: 1, minSymbols: 1, minUppercase: 1",
-    example: "Password123!",
-    
+    description:
+      'minLength: 8, minLowerCase: 1, minNumbers: 1, minSymbols: 1, minUppercase: 1',
+    example: 'Password123!',
   })
   password!: string;
 
@@ -32,7 +34,7 @@ export class RegisterReqDto {
   @MaxLength(50)
   @ApiProperty({
     description: "User's first name",
-    example: "John"
+    example: 'John',
   })
   firstName!: string;
 
@@ -41,7 +43,7 @@ export class RegisterReqDto {
   @MaxLength(50)
   @ApiProperty({
     description: "User's last name",
-    example: "Walker"
+    example: 'Walker',
   })
   lastName!: string;
 }

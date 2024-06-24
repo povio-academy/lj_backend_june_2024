@@ -1,2 +1,2 @@
-export const ADMIN_API_V1_PATH = 'admin/v1';
-export const USER_API_V1_PATH = 'user/v1';
+export const API_V1_ADMIN_PATH = 'api/v1/admin';
+export const API_V1_USER_PATH = 'api/v1/user';

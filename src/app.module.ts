@@ -11,6 +11,7 @@ import { CategoriesAdminDataApiModule } from '~data-api/categories/admin/categor
 import { CategoriesUserDataApiModule } from '~data-api/categories/user/categories.user.data-api.module';
 import { AuthDataApiModule } from '~data-api/auth/auth.data-api.module';
 import { SubcategoriesAdminDataApiModule } from '~data-api/subcategories/admin/subcategories.admin.data-api.module';
+import { TeamsModule } from '~data-api/teams/teams.module';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { SubcategoriesAdminDataApiModule } from '~data-api/subcategories/admin/s
     CategoriesUserDataApiModule,
     SubcategoriesAdminDataApiModule,
     AuthDataApiModule,
+    TeamsModule,
   ],
   controllers: [AppController],
 })
