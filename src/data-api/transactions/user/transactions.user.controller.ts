@@ -1,4 +1,4 @@
-import { Body, Controller, HttpCode, Param, Post } from '@nestjs/common';
+import { Body, Controller, HttpCode, Param, Patch, Post } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { API_V1_USER_PATH } from '~common/http/http.constant';
 import { CreateTransactionUserDto } from './dto/create-transaction.user.dto';
@@ -28,4 +28,9 @@ export class TransactionsUserController {
         @Param('id') id: string,
         @Body() updateTransactionUserDto: UpdateTransactionUserDto,
     ): Promise<void> {}
+
+    @ApiOperation({ summary: 'Delete an existing transaction' })
+    @Patch(':id')
+    @HttpCode(200)
+    async deleteTransaction(@Param('id') id: string): Promise<void> {}
 }
