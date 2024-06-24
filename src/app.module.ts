@@ -15,6 +15,7 @@ import { SubcategoriesAdminDataApiModule } from '~data-api/subcategories/admin/s
 import { SubcategoriesUserDataApiModule } from '~data-api/subcategories/user/subcategories.user.data-api.module';
 import { UsersAdminModule } from '~data-api/users/admin/users.admin.module';
 import { ImagesUserModule } from '~data-api/images/images.user.module';
+import { RecurringTransactionsUserDataApiModule } from '~data-api/recurring-transactions/user/recurring-transactions.user.data-api.module';
 
 @Module({
     imports: [
@@ -33,6 +34,7 @@ import { ImagesUserModule } from '~data-api/images/images.user.module';
         AuthDataApiModule,
         UsersAdminModule,
         ImagesUserModule,
+        RecurringTransactionsUserDataApiModule,
     ],
     controllers: [AppController],
 })
