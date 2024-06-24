@@ -1,12 +1,12 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { TransactionUserResDto } from './transaction.user.res.dto';
+import { TransactionResUserDto } from './transaction.res.user.dto';
 import { TransactionSearchMetadataUserDto } from './transaction-search-metadata.user.dto';
 import { Expose } from 'class-transformer';
 
 export class TransactionSearchResUserDto {
-    @ApiProperty({ type: () => [TransactionUserResDto] })
+    @ApiProperty({ type: () => [TransactionResUserDto] })
     @Expose()
-    transactions: TransactionUserResDto[];
+    transactions: TransactionResUserDto[];
 
     @ApiProperty({ type: () => TransactionSearchMetadataUserDto })
     @Expose()

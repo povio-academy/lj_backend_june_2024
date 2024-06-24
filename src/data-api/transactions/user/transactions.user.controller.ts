@@ -13,7 +13,7 @@ import {
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { API_V1_USER_PATH } from '~common/http/http.constant';
 import { CreateTransactionUserDto } from './dto/create-transaction.user.dto';
-import { TransactionUserResDto } from './dto/transaction.user.res.dto';
+import { TransactionResUserDto } from './dto/transaction.res.user.dto';
 import { UpdateTransactionUserDto } from './dto/update-transaction.user.dto';
 import { TransactionQueryUserDto } from './dto/transaction-search-query.user.dto';
 import { TransactionSearchResUserDto } from './dto/transaction-search.res.user.dto';
@@ -30,8 +30,8 @@ export class TransactionsUserController {
     @HttpCode(200)
     async createTransaction(
         @Body() createTransactionUserDto: CreateTransactionUserDto,
-    ): Promise<TransactionUserResDto> {
-        return new TransactionUserResDto();
+    ): Promise<TransactionResUserDto> {
+        return new TransactionResUserDto();
     }
 
     @ApiOperation({ summary: 'Update an existing transaction' })
