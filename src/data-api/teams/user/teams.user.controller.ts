@@ -14,7 +14,6 @@ import { InviteUserBodyDto } from './dto/invite-user.user.body.dto';
 import { UpdateTeamBodyDto } from './dto/update-team.user.body.dto';
 import { TeamMemberResDto } from './dto/team-member.res.dto';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
-import { UserRole } from '@prisma/client';
 
 @ApiTags('Teams')
 @Controller(`${API_V1_USER_PATH}/teams`)
@@ -72,11 +71,11 @@ export class TeamsUserController {
         console.log(teamId);
         return [
             new TeamMemberResDto(
+                'teamMemberID',
                 'Oliver',
                 'Smith',
                 'oliver.smith@gmail.com',
                 false,
-                UserRole.USER,
             ),
         ];
     }
