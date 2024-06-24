@@ -1,10 +1,20 @@
-import { Body, Controller, HttpCode, Param, Patch, Post } from '@nestjs/common';
+import {
+    Body,
+    Controller,
+    Get,
+    HttpCode,
+    Param,
+    Patch,
+    Post,
+} from '@nestjs/common';
 import { API_V1_USER_PATH } from '~common/http/http.constant';
 import { CreateTeamUserBodyDto } from './dto/create-team.user.body.dto';
 import { CreateTeamUserResDto } from './dto/create-team.user.res.dto';
 import { InviteUserBodyDto } from './dto/invite-user.user.body.dto';
 import { UpdateTeamBodyDto } from './dto/update-team.user.body.dto';
+import { TeamMemberResDto } from './dto/team-member.res.dto';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { UserRole } from '@prisma/client';
 
 @ApiTags('Teams')
 @Controller(`${API_V1_USER_PATH}/teams`)
@@ -50,5 +60,24 @@ export class TeamsUserController {
         // 1. Only normal users can leave a team
         // 2. Set isDeleted to true
         return teamId;
+    }
+
+    @ApiOperation({ summary: 'Get all team members' })
+    @Get(':id/members')
+    getAll(@Param('id') teamId: string): TeamMemberResDto[] {
+        // 1. Get userId from JWT token
+        // 2. Check if user is in a team with ID: teamId
+        // 3. Get all members of team with ID: teamId
+        // 4. implement pagination
+        console.log(teamId);
+        return [
+            new TeamMemberResDto(
+                'Oliver',
+                'Smith',
+                'oliver.smith@gmail.com',
+                false,
+                UserRole.USER,
+            ),
+        ];
     }
 }
