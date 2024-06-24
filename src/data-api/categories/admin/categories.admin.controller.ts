@@ -1,11 +1,11 @@
 import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
-import { ADMIN_API_V1_PATH } from '~common/http/http.constant';
+import { API_V1_ADMIN_PATH } from '~common/http/http.constant';
 import { CategoryAdminResDto } from './dto/category.admin.res.dto';
 import { CreateCategoryAdminBodyDto } from './dto/create-category.admin.body.dto';
 
 @ApiTags('categories')
-@Controller(ADMIN_API_V1_PATH + '/categories')
+@Controller(API_V1_ADMIN_PATH + '/categories')
 export class CategoriesAdminController {
     constructor() {}
 
