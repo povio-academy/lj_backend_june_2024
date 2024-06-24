@@ -1,0 +1,4 @@
+export const OBJECT_NAME_MAX_LENGTH = 50;
+export const OBJECT_DESCRIPTION_MAX_LENGTH = 500;
+export const OBJECT_NOTE_MAX_LENGTH = 1000;
+export const OBJECT_IMAGES_MAX_LENGTH = 20;
