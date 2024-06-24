@@ -3,6 +3,6 @@ import { TransactionsUserController } from './transactions.user.controller';
 
 @Global()
 @Module({
-  controllers: [TransactionsUserController],
+    controllers: [TransactionsUserController],
 })
 export class TransactionsUserModule {}

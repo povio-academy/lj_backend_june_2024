@@ -8,24 +8,24 @@ import { UpdateTransactionUserDto } from './dto/update-transaction.user.dto';
 @ApiTags('Transactions')
 @Controller(USER_API_V1_PATH + '/transactions/')
 export class TransactionsUserController {
-  constructor() {}
+    constructor() {}
 
-  @ApiOperation({ summary: 'Create a new transaction' })
-  @Post()
-  @HttpCode(200)
-  async createTransaction(
-    @Body() createTransactionUserDto: CreateTransactionUserDto,
-  ): Promise<TransactionUserResDto> {
-    return new TransactionUserResDto();
-    {
+    @ApiOperation({ summary: 'Create a new transaction' })
+    @Post()
+    @HttpCode(200)
+    async createTransaction(
+        @Body() createTransactionUserDto: CreateTransactionUserDto,
+    ): Promise<TransactionUserResDto> {
+        return new TransactionUserResDto();
+        {
+        }
     }
-  }
 
-  @ApiOperation({ summary: 'Update an existing transaction' })
-  @Post(':id')
-  @HttpCode(200)
-  async updateTransaction(
-    @Param('id') id: string,
-    @Body() updateTransactionUserDto: UpdateTransactionUserDto,
-  ): Promise<void> {}
+    @ApiOperation({ summary: 'Update an existing transaction' })
+    @Post(':id')
+    @HttpCode(200)
+    async updateTransaction(
+        @Param('id') id: string,
+        @Body() updateTransactionUserDto: UpdateTransactionUserDto,
+    ): Promise<void> {}
 }

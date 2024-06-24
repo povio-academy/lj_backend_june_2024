@@ -14,23 +14,22 @@ import { AuthDataApiModule } from '~data-api/auth/auth.data-api.module';
 import { SubcategoriesAdminDataApiModule } from '~data-api/subcategories/admin/subcategories.admin.data-api.module';
 import { SubcategoriesUserDataApiModule } from '~data-api/subcategories/user/subcategories.user.data-api.module';
 
-
 @Module({
-  imports: [
-    ClsModule,
-    ConfigModule,
-    ScheduleModule.forRoot(),
-    LoggerModule,
-    AuthModule,
-    PrismaModule,
-    TeamsModule,
-    TransactionsUserModule,
-    CategoriesAdminDataApiModule,
-    CategoriesUserDataApiModule,
-    SubcategoriesAdminDataApiModule,
-    SubcategoriesUserDataApiModule,
-    AuthDataApiModule,
-  ],
-  controllers: [AppController],
+    imports: [
+        ClsModule,
+        ConfigModule,
+        ScheduleModule.forRoot(),
+        LoggerModule,
+        AuthModule,
+        PrismaModule,
+        TeamsModule,
+        TransactionsUserModule,
+        CategoriesAdminDataApiModule,
+        CategoriesUserDataApiModule,
+        SubcategoriesAdminDataApiModule,
+        SubcategoriesUserDataApiModule,
+        AuthDataApiModule,
+    ],
+    controllers: [AppController],
 })
 export class AppModule {}

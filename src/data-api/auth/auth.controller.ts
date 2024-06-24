@@ -1,16 +1,14 @@
-import { Body, Controller, HttpCode, Injectable, Post } from "@nestjs/common";
-import { ApiTags } from "@nestjs/swagger";
-import { RegisterReqDto } from "./dto/register.req.dto";
+import { Body, Controller, HttpCode, Injectable, Post } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
+import { RegisterReqDto } from './dto/register.req.dto';
 
-
-@ApiTags("Auth")
+@ApiTags('Auth')
 @Injectable()
 @Controller('/auth')
 export class AuthController {
-  constructor() {}
+    constructor() {}
 
-  @Post("/register")
-  @HttpCode(204)
-  async register(@Body() body : RegisterReqDto) {}
-
+    @Post('/register')
+    @HttpCode(204)
+    async register(@Body() body: RegisterReqDto) {}
 }
