@@ -14,7 +14,7 @@ import {
 } from 'class-validator';
 import { ImageIdDto } from './image-id.user.dto';
 
-export class ChangeTransactionUserDto {
+export class UpdateTransactionUserDto {
   @ApiProperty({
     description: 'Category id',
     example: 'c6895fef-5456-4665-aece-14c2ee1e2fe0',
