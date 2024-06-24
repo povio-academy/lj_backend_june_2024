@@ -1,10 +1,10 @@
 import { Controller, Get, Param } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
-import { USER_API_V1_PATH } from '~common/http/http.constant';
+import { API_V1_USER_PATH } from '~common/http/http.constant';
 import { CategoryUserResDto } from './dto/category.user.res.dto';
 
 @ApiTags('categories')
-@Controller(USER_API_V1_PATH + '/categories')
+@Controller(API_V1_USER_PATH + '/categories')
 export class CategoriesUserController {
     constructor() {}
 
