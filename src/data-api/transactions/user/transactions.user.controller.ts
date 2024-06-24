@@ -1,9 +1,19 @@
-import { Body, Controller, HttpCode, Param, Post } from '@nestjs/common';
+import {
+    Body,
+    Controller,
+    Get,
+    HttpCode,
+    Param,
+    Post,
+    Query,
+} from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { API_V1_USER_PATH } from '~common/http/http.constant';
 import { CreateTransactionUserDto } from './dto/create-transaction.user.dto';
 import { TransactionUserResDto } from './dto/transaction.user.res.dto';
 import { UpdateTransactionUserDto } from './dto/update-transaction.user.dto';
+import { TransactionQueryUserDto } from './dto/transaction-search-query.user.dto';
+import { TransactionSearchResUserDto } from './dto/transaction-search.res.user.dto';
 
 @ApiTags('Transactions')
 @Controller(API_V1_USER_PATH + '/transactions/')
@@ -28,4 +38,14 @@ export class TransactionsUserController {
         @Param('id') id: string,
         @Body() updateTransactionUserDto: UpdateTransactionUserDto,
     ): Promise<void> {}
+
+    @ApiOperation({ summary: 'Search transactions' })
+    @Get()
+    @HttpCode(200)
+    async searchTransactions(
+        @Query() query: TransactionQueryUserDto,
+    ): Promise<TransactionSearchResUserDto> {
+        // get user id from JWT token
+        return new TransactionSearchResUserDto();
+    }
 }
