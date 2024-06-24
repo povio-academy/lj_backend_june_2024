@@ -2,20 +2,21 @@ import {
     Body,
     Controller,
     Get,
-    Header
+    Header,
     HttpCode,
     Param,
     Post,
     Query,
     StreamableFile,
 } from '@nestjs/common';
-import { ApiOperation, ApiQuery, ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { API_V1_USER_PATH } from '~common/http/http.constant';
 import { CreateTransactionUserDto } from './dto/create-transaction.user.dto';
 import { TransactionUserResDto } from './dto/transaction.user.res.dto';
 import { UpdateTransactionUserDto } from './dto/update-transaction.user.dto';
 import { TransactionQueryUserDto } from './dto/transaction-search-query.user.dto';
 import { TransactionSearchResUserDto } from './dto/transaction-search.res.user.dto';
+import { GetTransactionReportUserDto } from './dto/get-transaction-report.user.dto';
 
 @ApiTags('Transactions')
 @Controller(API_V1_USER_PATH + '/transactions/')
@@ -45,31 +46,15 @@ export class TransactionsUserController {
         summary: 'Get a report of transactions, based on parameters',
     })
     @Get('report')
-    @ApiQuery({
-        name: 'from',
-        required: true,
-        description: 'The start date of the report',
-        example: '2024-01-01',
-    })
-    @ApiQuery({
-        name: 'to',
-        required: true,
-        description: 'The end date of the report',
-        example: '2024-12-31',
-    })
-    @ApiQuery({
-        name: 'teamId',
-        required: false,
-        example: '123e4567-e89b-12d3-a456-426614174000',
-    })
     @HttpCode(200)
     @Header('Content-Type', 'application/pdf')
     async getReport(
-        @Query('from') from: Date,
-        @Query('to') to: Date,
-        @Query('teamId') teamId?: string,
+        @Query() query: GetTransactionReportUserDto,
     ): Promise<StreamableFile> {
-        const buffer = Buffer.from('Hello World', 'utf-8');
+        const buffer = Buffer.from(
+            'This is an example file which will soon turn into a PDF report',
+            'utf-8',
+        );
         return new StreamableFile(buffer);
     }
 
