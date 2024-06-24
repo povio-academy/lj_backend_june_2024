@@ -4,11 +4,11 @@ import { TransactionSearchMetadataUserDto } from './transaction-search-metadata.
 import { Expose } from 'class-transformer';
 
 export class TransactionSearchResUserDto {
-    @ApiProperty({ type: () => [TransactionResUserDto] })
+    @ApiProperty({ type: [TransactionResUserDto] })
     @Expose()
     transactions: TransactionResUserDto[];
 
-    @ApiProperty({ type: () => TransactionSearchMetadataUserDto })
+    @ApiProperty({ type: TransactionSearchMetadataUserDto })
     @Expose()
     metadata: TransactionSearchMetadataUserDto;
     constructor() {}

@@ -1,7 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { TransactionType } from '@prisma/client';
 import { Expose } from 'class-transformer';
-import { ImageIdUserDto } from './image-id.user.dto';
 
 export class TransactionResUserDto {
     @ApiProperty({
@@ -69,7 +68,7 @@ export class TransactionResUserDto {
         ],
     })
     @Expose()
-    imagesIds?: ImageIdUserDto[];
+    imagesIds?: string[];
 
     constructor() {}
 }
