@@ -2,7 +2,7 @@ import {
     Body,
     Controller,
     Get,
-    Header,
+    Header
     HttpCode,
     Param,
     Post,
@@ -14,6 +14,8 @@ import { API_V1_USER_PATH } from '~common/http/http.constant';
 import { CreateTransactionUserDto } from './dto/create-transaction.user.dto';
 import { TransactionUserResDto } from './dto/transaction.user.res.dto';
 import { UpdateTransactionUserDto } from './dto/update-transaction.user.dto';
+import { TransactionQueryUserDto } from './dto/transaction-search-query.user.dto';
+import { TransactionSearchResUserDto } from './dto/transaction-search.res.user.dto';
 
 @ApiTags('Transactions')
 @Controller(API_V1_USER_PATH + '/transactions/')
@@ -69,5 +71,15 @@ export class TransactionsUserController {
     ): Promise<StreamableFile> {
         const buffer = Buffer.from('Hello World', 'utf-8');
         return new StreamableFile(buffer);
+    }
+
+    @ApiOperation({ summary: 'Search transactions' })
+    @Get()
+    @HttpCode(200)
+    async searchTransactions(
+        @Query() query: TransactionQueryUserDto,
+    ): Promise<TransactionSearchResUserDto> {
+        // get user id from JWT token
+        return new TransactionSearchResUserDto();
     }
 }
