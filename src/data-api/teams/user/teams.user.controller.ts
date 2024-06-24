@@ -14,6 +14,7 @@ import { InviteUserBodyDto } from './dto/invite-user.user.body.dto';
 import { UpdateTeamBodyDto } from './dto/update-team.user.body.dto';
 import { TeamMemberResDto } from './dto/team-member.res.dto';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { InviteTeamResDto } from './dto/invite-team.res.dto';
 
 @ApiTags('Teams')
 @Controller(`${API_V1_USER_PATH}/teams`)
@@ -63,7 +64,7 @@ export class TeamsUserController {
 
     @ApiOperation({ summary: 'Get all team members' })
     @Get(':id/members')
-    getAll(@Param('id') teamId: string): TeamMemberResDto[] {
+    getAllMembers(@Param('id') teamId: string): TeamMemberResDto[] {
         // 1. Get userId from JWT token
         // 2. Check if user is in a team with ID: teamId
         // 3. Get all members of team with ID: teamId
@@ -76,6 +77,22 @@ export class TeamsUserController {
                 'Smith',
                 'oliver.smith@gmail.com',
                 false,
+            ),
+        ];
+    }
+
+    @Get(':id/members/invites')
+    getAllInvites(@Param('id') teamId: string): InviteTeamResDto[] {
+        // 1. Check if user is team admin
+        // 2. Return only invites with pending status
+        console.log(teamId);
+        return [
+            new InviteTeamResDto(
+                'Invite ID',
+                'Inviter ID',
+                'example@gmail.com',
+                false,
+                new Date(),
             ),
         ];
     }
