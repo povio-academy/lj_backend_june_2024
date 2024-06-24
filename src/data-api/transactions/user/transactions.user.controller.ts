@@ -1,5 +1,15 @@
-import { Body, Controller, HttpCode, Param, Post } from '@nestjs/common';
-import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import {
+    Body,
+    Controller,
+    Get,
+    Header,
+    HttpCode,
+    Param,
+    Post,
+    Query,
+    StreamableFile,
+} from '@nestjs/common';
+import { ApiOperation, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { API_V1_USER_PATH } from '~common/http/http.constant';
 import { CreateTransactionUserDto } from './dto/create-transaction.user.dto';
 import { TransactionUserResDto } from './dto/transaction.user.res.dto';
@@ -28,4 +38,36 @@ export class TransactionsUserController {
         @Param('id') id: string,
         @Body() updateTransactionUserDto: UpdateTransactionUserDto,
     ): Promise<void> {}
+
+    @ApiOperation({
+        summary: 'Get a report of transactions, based on parameters',
+    })
+    @Get('report')
+    @ApiQuery({
+        name: 'from',
+        required: true,
+        description: 'The start date of the report',
+        example: '2024-01-01',
+    })
+    @ApiQuery({
+        name: 'to',
+        required: true,
+        description: 'The end date of the report',
+        example: '2024-12-31',
+    })
+    @ApiQuery({
+        name: 'teamId',
+        required: false,
+        example: '123e4567-e89b-12d3-a456-426614174000',
+    })
+    @HttpCode(200)
+    @Header('Content-Type', 'application/pdf')
+    async getReport(
+        @Query('from') from: Date,
+        @Query('to') to: Date,
+        @Query('teamId') teamId?: string,
+    ): Promise<StreamableFile> {
+        const buffer = Buffer.from('Hello World', 'utf-8');
+        return new StreamableFile(buffer);
+    }
 }
