@@ -9,7 +9,6 @@ import {
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { API_V1_ADMIN_PATH } from '~common/http/http.constant';
 import { InviteReqDto } from './dto/invite.req.dto';
-import { UserDto } from './dto/user.dto';
 import { UsersAdminResDto } from './dto/users.admin.res.dto';
 
 @Injectable()

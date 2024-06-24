@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Expose } from 'class-transformer';
+import { UserRole } from '~common/enums';
 
 export class UserDto {
     @Expose()
@@ -23,16 +24,16 @@ export class UserDto {
     @Expose()
     @ApiProperty({
         description: 'User role',
-        example: 'USER',
+        example: UserRole.USER,
     })
-    role: string; // fix
+    role!: UserRole;
 
     @Expose()
     @ApiProperty({
         description: 'Is user soft deleted',
         example: 'false',
     })
-    isDeleted: boolean;
+    isDeleted!: boolean;
 
     constructor() {}
 }
