@@ -5,7 +5,7 @@ import { CreateImageResUserDto } from './user/dto/create-image.res.user.dto';
 import { CreateImageUserDto } from './user/dto/create-image.user.dto';
 
 @ApiTags('Images')
-@Controller(API_V1_USER_PATH + '/images/')
+@Controller(API_V1_USER_PATH + '/images')
 export class ImagesUserController {
     constructor() {}
 
