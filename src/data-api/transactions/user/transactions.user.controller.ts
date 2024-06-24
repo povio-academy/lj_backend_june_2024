@@ -7,6 +7,8 @@ import {
     Post,
     Query,
     Get,
+    StreamableFile,
+    Header,
 } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { API_V1_USER_PATH } from '~common/http/http.constant';
@@ -16,6 +18,7 @@ import { UpdateTransactionUserDto } from './dto/update-transaction.user.dto';
 import { TransactionQueryUserDto } from './dto/transaction-search-query.user.dto';
 import { TransactionSearchResUserDto } from './dto/transaction-search.res.user.dto';
 import { TransactionGetResUserDto } from './dto/transaction-get.res.user.dto';
+import { GetTransactionReportUserDto } from './dto/get-transaction-report.user.dto';
 
 @ApiTags('Transactions')
 @Controller(API_V1_USER_PATH + '/transactions/')
@@ -43,6 +46,22 @@ export class TransactionsUserController {
     @Patch(':id')
     @HttpCode(200)
     async deleteTransaction(@Param('id') id: string): Promise<void> {}
+
+    @ApiOperation({
+        summary: 'Get a report of transactions, based on parameters',
+    })
+    @Get('report')
+    @HttpCode(200)
+    @Header('Content-Type', 'application/pdf')
+    async getReport(
+        @Query() query: GetTransactionReportUserDto,
+    ): Promise<StreamableFile> {
+        const buffer = Buffer.from(
+            'This is an example file which will soon turn into a PDF report',
+            'utf-8',
+        );
+        return new StreamableFile(buffer);
+    }
 
     @ApiOperation({ summary: 'Search transactions' })
     @Get()
