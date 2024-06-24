@@ -31,6 +31,9 @@ export class RecurringExpenseUserResDto {
     @Expose()
     nextRunScheduledAt?: Date;
 
+    @Expose()
+    LastRanAt?: Date;
+
     constructor(
         id: string,
         categoryId: string,
@@ -42,6 +45,7 @@ export class RecurringExpenseUserResDto {
         endDate: Date,
         teamId: string,
         nextRunScheduledAt: Date,
+        LastRanAt: Date,
     ) {
         this.id = id;
         this.categoryId = categoryId;
@@ -53,5 +57,6 @@ export class RecurringExpenseUserResDto {
         this.endDate = endDate;
         this.teamId = teamId;
         this.nextRunScheduledAt = nextRunScheduledAt;
+        this.LastRanAt = LastRanAt;
     }
 }

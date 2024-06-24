@@ -1,4 +1,4 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { API_V1_USER_PATH } from '~common/http/http.constant';
 import { CreateRecurringExpenseUserBodyDto } from './dto/create-recurring-expense.user.body.dto';
@@ -13,6 +13,14 @@ export class RecurringTransactionsUserController {
     @Post()
     async createRecurringExpense(
         @Body() body: CreateRecurringExpenseUserBodyDto,
+    ): Promise<RecurringExpenseUserResDto> {
+        return;
+    }
+
+    @ApiOperation({ summary: 'Get a specific recurring expense' })
+    @Get(':id')
+    async getRecurringExpense(
+        @Param('id') id: string,
     ): Promise<RecurringExpenseUserResDto> {
         return;
     }
