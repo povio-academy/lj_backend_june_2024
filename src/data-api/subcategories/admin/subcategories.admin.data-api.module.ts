@@ -1,5 +1,5 @@
-import { Global, Module } from "@nestjs/common";
-import { SubcategoriesAdminController } from "./subcategories.admin.controller";
+import { Global, Module } from '@nestjs/common';
+import { SubcategoriesAdminController } from './subcategories.admin.controller';
 
 @Global()
 @Module({

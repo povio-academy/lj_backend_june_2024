@@ -5,27 +5,27 @@ import { PrismaConfig } from '~vendor/prisma/prisma.config';
 import { AuthConfig } from '~modules/auth/auth.config';
 
 export class AppConfig {
-  @IsNumber()
-  port!: number;
+    @IsNumber()
+    port!: number;
 }
 
 export class Config {
-  @Type(() => AppConfig)
-  @ValidateNested()
-  public readonly app!: AppConfig;
+    @Type(() => AppConfig)
+    @ValidateNested()
+    public readonly app!: AppConfig;
 
-  @Type(() => PrismaConfig)
-  @IsObject()
-  @ValidateNested()
-  public readonly prisma!: PrismaConfig;
+    @Type(() => PrismaConfig)
+    @IsObject()
+    @ValidateNested()
+    public readonly prisma!: PrismaConfig;
 
-  @Type(() => LoggerConfig)
-  @IsObject()
-  @ValidateNested()
-  public readonly logger!: LoggerConfig;
+    @Type(() => LoggerConfig)
+    @IsObject()
+    @ValidateNested()
+    public readonly logger!: LoggerConfig;
 
-  @Type(() => AuthConfig)
-  @IsObject()
-  @ValidateNested()
-  public readonly auth!: AuthConfig;
+    @Type(() => AuthConfig)
+    @IsObject()
+    @ValidateNested()
+    public readonly auth!: AuthConfig;
 }

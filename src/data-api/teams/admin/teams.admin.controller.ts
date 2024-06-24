@@ -5,8 +5,8 @@ import { CreateTeamAdminResDto } from './dto/create-team.admin.res.dto';
 
 @Controller(`${API_V1_ADMIN_PATH}/teams`)
 export class TeamsAdminController {
-  @Post()
-  createTeam(@Body() newTeam: CreateTeamAdminBodyDto): CreateTeamAdminResDto {
-    return new CreateTeamAdminResDto(newTeam.name, newTeam.description);
-  }
+    @Post()
+    createTeam(@Body() newTeam: CreateTeamAdminBodyDto): CreateTeamAdminResDto {
+        return new CreateTeamAdminResDto(newTeam.name, newTeam.description);
+    }
 }

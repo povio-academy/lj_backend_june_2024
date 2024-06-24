@@ -5,8 +5,11 @@ import { CreateTeamUserResDto } from './dto/create-team.user.res.dto';
 
 @Controller(`${API_V1_USER_PATH}/teams`)
 export class TeamsUserController {
-  @Post()
-  createTeam(@Body() createTeam: CreateTeamUserBodyDto) {
-    return new CreateTeamUserResDto(createTeam.name, createTeam.description);
-  }
+    @Post()
+    createTeam(@Body() createTeam: CreateTeamUserBodyDto) {
+        return new CreateTeamUserResDto(
+            createTeam.name,
+            createTeam.description,
+        );
+    }
 }
