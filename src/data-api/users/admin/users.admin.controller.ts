@@ -42,10 +42,12 @@ export class UsersAdminController {
         @Param('id') userId: string,
     ) {
         //delete and update user data
+    }
     @ApiOperation({ summary: 'Get all invited users' })
     @Get('/invites')
     async getInvitedUsers(): Promise<UsersAdminResDto> {
         //return users with a UserRole.PENDING
         //add pagination
+        return new UsersAdminResDto();
     }
 }
