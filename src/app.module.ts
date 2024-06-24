@@ -13,6 +13,7 @@ import { CategoriesUserDataApiModule } from '~data-api/categories/user/categorie
 import { AuthDataApiModule } from '~data-api/auth/auth.data-api.module';
 import { SubcategoriesAdminDataApiModule } from '~data-api/subcategories/admin/subcategories.admin.data-api.module';
 import { SubcategoriesUserDataApiModule } from '~data-api/subcategories/user/subcategories.user.data-api.module';
+import { ImagesUserModule } from '~data-api/images/images.user.module';
 
 @Module({
     imports: [
@@ -29,6 +30,7 @@ import { SubcategoriesUserDataApiModule } from '~data-api/subcategories/user/sub
         SubcategoriesAdminDataApiModule,
         SubcategoriesUserDataApiModule,
         AuthDataApiModule,
+        ImagesUserModule,
     ],
     controllers: [AppController],
 })
