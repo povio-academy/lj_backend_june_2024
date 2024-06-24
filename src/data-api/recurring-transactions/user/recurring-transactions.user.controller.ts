@@ -1,4 +1,12 @@
-import { Body, Controller, Get, Param, Patch, Post } from '@nestjs/common';
+import {
+    Body,
+    Controller,
+    Get,
+    HttpCode,
+    Param,
+    Patch,
+    Post,
+} from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { API_V1_USER_PATH } from '~common/http/http.constant';
 import { CreateRecurringExpenseUserBodyDto } from './dto/create-recurring-expense.user.body.dto';
@@ -38,6 +46,13 @@ export class RecurringTransactionsUserController {
         @Param('id') id: string,
         @Body() body: UpdateRecurringTransactionUserBodyDto,
     ): Promise<RecurringExpenseUserResDto> {
+        return;
+    }
+
+    @ApiOperation({ summary: 'Delete a recurring expense' })
+    @Patch(':id')
+    @HttpCode(200)
+    async deleteRecurringExpense(@Param('id') id: string): Promise<void> {
         return;
     }
 }
