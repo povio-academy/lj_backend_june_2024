@@ -12,7 +12,8 @@ import {
     MaxLength,
     ValidateNested,
 } from 'class-validator';
-import { ImageIdDto } from './image-id.user.dto';
+import { ImageIdUserDto } from './image-id.user.dto';
+import { OBJECT_IMAGES_MAX_LENGTH } from '~common/domain.constants';
 
 export class UpdateTransactionUserDto {
     @ApiProperty({
@@ -54,10 +55,10 @@ export class UpdateTransactionUserDto {
         ],
     })
     @ArrayMinSize(1)
-    @ArrayMaxSize(20)
+    @ArrayMaxSize(OBJECT_IMAGES_MAX_LENGTH)
     @ValidateNested({ each: true })
-    @Type(() => ImageIdDto)
-    imagesIds?: ImageIdDto[];
+    @Type(() => ImageIdUserDto)
+    imagesIds?: ImageIdUserDto[];
 
     constructor() {}
 }
