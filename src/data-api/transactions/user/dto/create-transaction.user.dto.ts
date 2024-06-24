@@ -8,6 +8,7 @@ import {
     IsUUID,
     MaxLength,
 } from 'class-validator';
+import { OBJECT_NOTE_MAX_LENGTH } from '~common/domain.constants';
 import { TransactionType } from '~common/enums';
 
 export class CreateTransactionUserDto {
@@ -41,7 +42,7 @@ export class CreateTransactionUserDto {
 
     @ApiProperty({ description: 'Note', example: 'This is a note' })
     @IsString()
-    @MaxLength(500)
+    @MaxLength(OBJECT_NOTE_MAX_LENGTH)
     readonly note?: string;
 
     @ApiProperty({

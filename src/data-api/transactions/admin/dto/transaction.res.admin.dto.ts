@@ -1,7 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { TransactionType } from '@prisma/client';
-import { Expose, Type } from 'class-transformer';
-import { ArrayMaxSize, ArrayMinSize, ValidateNested } from 'class-validator';
+import { Expose } from 'class-transformer';
 import { ImageIdAdminDto } from './image-id.admin.dto';
 
 export class TransactionResAdminDto {
@@ -62,11 +61,22 @@ export class TransactionResAdminDto {
             'b7895fef-1234-4678-bcde-56d7ee3e4gh1',
         ],
     })
-    @ArrayMinSize(1)
-    @ArrayMaxSize(20)
-    @ValidateNested({ each: true })
-    @Type(() => ImageIdAdminDto)
+    @Expose()
     imagesIds?: ImageIdAdminDto[];
+
+    @ApiProperty({
+        description: 'Created at',
+        example: '2021-07-01T00:00:00.000Z',
+    })
+    @Expose()
+    createdAt: Date;
+
+    @ApiProperty({
+        description: 'Updated at',
+        example: '2021-07-01T00:00:00.000Z',
+    })
+    @Expose()
+    updatedAt: Date;
 
     constructor() {}
 }
