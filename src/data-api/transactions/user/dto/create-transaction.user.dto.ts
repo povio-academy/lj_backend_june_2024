@@ -1,5 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { Type } from 'class-transformer';
 import {
+    ArrayMaxSize,
+    ArrayMinSize,
     IsEnum,
     IsNotEmpty,
     IsNumber,
@@ -7,9 +10,15 @@ import {
     IsString,
     IsUUID,
     MaxLength,
+    ValidateNested,
 } from 'class-validator';
-import { OBJECT_NOTE_MAX_LENGTH } from '~common/domain.constants';
 import { TransactionType } from '~common/enums';
+import { ImageIdUserDto } from './image-id.user.dto';
+import {
+    OBJECT_IMAGES_MAX_LENGTH,
+    OBJECT_IMAGES_MIN_LENGTH,
+    OBJECT_NOTE_MAX_LENGTH,
+} from '~common/domain.constants';
 
 export class CreateTransactionUserDto {
     @ApiProperty({
@@ -52,6 +61,19 @@ export class CreateTransactionUserDto {
     @IsNotEmpty()
     @IsEnum(TransactionType)
     readonly type: TransactionType;
+
+    @ApiProperty({
+        description: 'Images ids array',
+        example: [
+            'c6895fef-5456-4665-aece-14c2ee1e2fe0',
+            'b7895fef-1234-4678-bcde-56d7ee3e4gh1',
+        ],
+    })
+    @ArrayMinSize(OBJECT_IMAGES_MIN_LENGTH)
+    @ArrayMaxSize(OBJECT_IMAGES_MAX_LENGTH)
+    @ValidateNested({ each: true })
+    @Type(() => ImageIdUserDto)
+    imagesIds?: ImageIdUserDto[];
 
     constructor() {}
 }
