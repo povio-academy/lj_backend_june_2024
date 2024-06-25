@@ -5,7 +5,7 @@ export class CreateTeamUserResDto {
     name: string;
 
     @Expose()
-    description: string;
+    description?: string;
 
     constructor(name: string, description: string) {
         this.name = name;

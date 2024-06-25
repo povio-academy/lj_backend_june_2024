@@ -3,7 +3,7 @@ import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { API_V1_USER_PATH } from '~common/http/http.constant';
 import { CategoryUserResDto } from './dto/category.user.res.dto';
 
-@ApiTags('categories')
+@ApiTags('Categories')
 @Controller(API_V1_USER_PATH + '/categories')
 export class CategoriesUserController {
     constructor() {}

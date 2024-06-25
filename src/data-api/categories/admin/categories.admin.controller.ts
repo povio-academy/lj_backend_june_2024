@@ -4,7 +4,7 @@ import { API_V1_ADMIN_PATH } from '~common/http/http.constant';
 import { CategoryAdminResDto } from './dto/category.admin.res.dto';
 import { CreateCategoryAdminBodyDto } from './dto/create-category.admin.body.dto';
 
-@ApiTags('categories')
+@ApiTags('Categories')
 @Controller(API_V1_ADMIN_PATH + '/categories')
 export class CategoriesAdminController {
     constructor() {}

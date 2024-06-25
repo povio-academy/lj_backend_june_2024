@@ -4,7 +4,7 @@ import { API_V1_ADMIN_PATH } from '~common/http/http.constant';
 import { CreateSubcategoryAdminBodyDto } from './dto/create-subcategory.admin.body.dto';
 import { SubcategoryAdminResDto } from './dto/subcategory.admin.res.dto';
 
-@ApiTags('subcategories')
+@ApiTags('Subcategories')
 @Controller(API_V1_ADMIN_PATH + '/subcategories')
 export class SubcategoriesAdminController {
     constructor() {}
