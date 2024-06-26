@@ -1,7 +1,39 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsDate, IsString, IsUUID } from 'class-validator';
+import {
+    ArrayMaxSize,
+    ArrayMinSize,
+    IsDate,
+    IsString,
+    IsUUID,
+    ValidateNested,
+} from 'class-validator';
 
-export class TransactionQueryUserDto {
+export class SearchTransactionReqAdminDto {
+    @ApiProperty({
+        description: 'Transaction id',
+        example: [
+            'c6895fef-5456-4665-aece-14c2ee1e2fe0',
+            'b7895fef-1234-4678-bcde-56d7ee3e4gh1',
+        ],
+    })
+    @ArrayMinSize(1)
+    @ArrayMaxSize(200)
+    @ValidateNested({ each: true })
+    @IsUUID(4, { each: true })
+    transactionIds?: string[];
+
+    @ApiProperty({
+        description: 'User id',
+        example: [
+            'c6895fef-5456-4665-aece-14c2ee1e2fe0',
+            'b7895fef-1234-4678-bcde-56d7ee3e4gh1',
+        ],
+    })
+    @ArrayMinSize(1)
+    @ArrayMaxSize(20)
+    @IsUUID(4, { each: true })
+    userIds?: string[];
+
     @ApiProperty({
         description: 'Subategory id',
         example: 'c6895fef-5456-4665-aece-14c2ee1e2fe0',

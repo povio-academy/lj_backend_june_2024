@@ -12,6 +12,7 @@ import {
 } from 'class-validator';
 import {
     OBJECT_IMAGES_MAX_LENGTH,
+    OBJECT_IMAGES_MIN_LENGTH,
     OBJECT_NOTE_MAX_LENGTH,
 } from '~common/domain.constants';
 
@@ -54,7 +55,7 @@ export class UpdateTransactionUserDto {
             'b7895fef-1234-4678-bcde-56d7ee3e4gh1',
         ],
     })
-    @ArrayMinSize(1)
+    @ArrayMinSize(OBJECT_IMAGES_MIN_LENGTH)
     @ArrayMaxSize(OBJECT_IMAGES_MAX_LENGTH)
     @IsUUID(4, { each: true })
     imagesIds?: string[];

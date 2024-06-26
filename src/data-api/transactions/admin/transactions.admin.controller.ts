@@ -1,8 +1,11 @@
 import { Controller, Get, HttpCode, Query } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
-import { TransactionQueryAdminDto } from './dto/transaction-search-query.admin.dto';
-import { TransactionSearchResAdminDto } from './dto/transactions-search.res.admin.dto';
 import { API_V1_ADMIN_PATH } from '~common/http/http.constant';
+import { PagedReqDto } from '~data-api/common/dto/paged.req.dto';
+import { PagedResDto } from '~data-api/common/dto/paged.res.dto';
+import { SearchTransactionResAdminDto } from './dto/search-transaction.res.admin.dto';
+import { PagingInfo } from '~data-api/common/dto/paging-info';
+import { SearchTransactionReqAdminDto } from './dto/search-transaction.req.admin.dto';
 
 @ApiTags('Transactions')
 @Controller(API_V1_ADMIN_PATH + '/transactions/')
@@ -13,9 +16,15 @@ export class TransactionsAdminController {
     @Get()
     @HttpCode(200)
     async searchTransactions(
-        @Query() query: TransactionQueryAdminDto,
-    ): Promise<TransactionSearchResAdminDto> {
-        // get user id from JWT token
-        return new TransactionSearchResAdminDto();
+        @Query() paging: PagedReqDto,
+        searchQuery: SearchTransactionReqAdminDto,
+    ): Promise<PagedResDto<SearchTransactionResAdminDto>> {
+        return {
+            data: [
+                new SearchTransactionResAdminDto(),
+                new SearchTransactionResAdminDto(),
+            ],
+            pagingInfo: new PagingInfo({ page: 1, pageSize: 10, total: 2 }),
+        };
     }
 }
