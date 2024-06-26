@@ -14,7 +14,7 @@ import { InviteUserBodyDto } from './dto/invite-user.user.body.dto';
 import { UpdateTeamBodyDto } from './dto/update-team.user.body.dto';
 import { TeamMemberResDto } from './dto/team-member.res.dto';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
-import { InviteTeamResDto } from './dto/invite-team.res.dto';
+import { TeamInviteResDto } from './dto/team-invite.res.dto';
 import { UpdateTeamMemberBodyDto } from './dto/update-team-member.body.dto';
 
 @ApiTags('Teams')
@@ -23,35 +23,43 @@ export class TeamsUserController {
     @ApiOperation({ summary: 'Create a new team' })
     @Post()
     createTeam(@Body() body: CreateTeamUserBodyDto): CreateTeamUserResDto {
+        // 1. Create a new team
+        // 2. Team creator automatically become team admin
         return new CreateTeamUserResDto(body.name, body.description);
     }
 
     @ApiOperation({ summary: 'Invite a new user into a team' })
     @Post(':id/invites')
-    inviteUser(@Param('id') teamId: string, @Body() body: InviteUserBodyDto) {
+    inviteUser(
+        @Param('id') teamId: string,
+        @Body() body: InviteUserBodyDto,
+    ): void {
         // 1. Check if user email exists
         // 2. Check if user is not already in the team
         // 3. Add metadata about who sent the invite
         // 4. Add invite in DB, separate from the app invites
-        return { teamId, body };
+        console.log({ teamId, body });
     }
 
     @ApiOperation({ summary: 'Join a team' })
     @Post(':id/join')
-    joinTeam(@Param('id') teamId: string) {
+    joinTeam(@Param('id') teamId: string): void {
         // 1. Get userId from JWT token
         // 2. Check if user is invited into that team
         // 3. Join user in a team, when a user joins a team, he is a normal member
-        return teamId;
+        console.log(teamId);
     }
 
     @ApiOperation({ summary: 'Update team data' })
     @HttpCode(200)
     @Patch(':id')
-    updateTeam(@Param('id') teamId: string, @Body() body: UpdateTeamBodyDto) {
+    updateTeam(
+        @Param('id') teamId: string,
+        @Body() body: UpdateTeamBodyDto,
+    ): void {
         // 1. Check if user is team admin
         // 2. Update team data
-        return { teamId, body };
+        console.log({ teamId, body });
     }
 
     @ApiOperation({ summary: 'Update a team member' })
@@ -69,7 +77,7 @@ export class TeamsUserController {
 
     @ApiOperation({ summary: 'Get all team members' })
     @Get(':id/members')
-    getAllMembers(@Param('id') teamId: string): TeamMemberResDto[] {
+    getTeamMembers(@Param('id') teamId: string): TeamMemberResDto[] {
         // 1. Get userId from JWT token
         // 2. Check if user is in a team with ID: teamId
         // 3. Get all members of team with ID: teamId
@@ -87,12 +95,12 @@ export class TeamsUserController {
     }
 
     @Get(':id/members/invites')
-    getAllInvites(@Param('id') teamId: string): InviteTeamResDto[] {
+    getTeamInvites(@Param('id') teamId: string): TeamInviteResDto[] {
         // 1. Check if user is team admin
         // 2. Return only invites with pending status
         console.log(teamId);
         return [
-            new InviteTeamResDto(
+            new TeamInviteResDto(
                 'Invite ID',
                 'Inviter ID',
                 'example@gmail.com',
@@ -105,9 +113,9 @@ export class TeamsUserController {
     @ApiOperation({ summary: 'Leave a team' })
     @HttpCode(200)
     @Patch(':id')
-    leaveTeam(@Param('id') teamId: string) {
+    leaveTeam(@Param('id') teamId: string): void {
         // 1. Only normal users can leave a team
         // 2. Set isDeleted to true
-        return teamId;
+        console.log(teamId);
     }
 }
