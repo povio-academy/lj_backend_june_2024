@@ -6,6 +6,11 @@ import {
     IsPositive,
 } from 'class-validator';
 
+export enum SortOrder {
+    ASC = 'ASC',
+    DESC = 'DESC',
+}
+
 export class PagedReqDto {
     @IsNumberString()
     @IsOptional()
@@ -36,9 +41,4 @@ export class PagedReqDto {
         example: 'name',
     })
     readonly sortBy?: string;
-}
-
-export enum SortOrder {
-    ASC = 'ASC',
-    DESC = 'DESC',
 }

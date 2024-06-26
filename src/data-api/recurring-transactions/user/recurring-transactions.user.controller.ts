@@ -6,12 +6,15 @@ import {
     Param,
     Patch,
     Post,
+    Query,
 } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { API_V1_USER_PATH } from '~common/http/http.constant';
 import { CreateRecurringExpenseUserBodyDto } from './dto/create-recurring-expense.user.body.dto';
 import { RecurringExpenseUserResDto } from './dto/recurring-expense.user.res.dto';
 import { UpdateRecurringTransactionUserBodyDto } from './dto/update-recurring-transaction.user.body.dto';
+import { PagedReqDto } from '~data-api/common/dto/paged.req.dto';
+import { PagedResDto } from '~data-api/common/dto/paged.res.dto';
 
 @ApiTags('Recurring transactions')
 @Controller(API_V1_USER_PATH + '/recurring-transactions')
@@ -36,8 +39,31 @@ export class RecurringTransactionsUserController {
 
     @ApiOperation({ summary: 'Get all recurring expenses' })
     @Get()
-    async getRecurringExpenses(): Promise<RecurringExpenseUserResDto[]> {
-        return;
+    async getRecurringExpenses(
+        @Query() paging: PagedReqDto,
+    ): Promise<PagedResDto<RecurringExpenseUserResDto>> {
+        return {
+            data: [
+                new RecurringExpenseUserResDto(
+                    'id',
+                    'categoryId',
+                    'subcategoryId',
+                    100.0,
+                    'note',
+                    '0 0 1 * *',
+                    new Date(2021, 0, 1),
+                    new Date(2025, 0, 1),
+                    'teamId',
+                    new Date(2024, 5, 27),
+                    new Date(2024, 5, 26),
+                ),
+            ],
+            pagingInfo: {
+                page: 1,
+                pageSize: 10,
+                total: 1,
+            },
+        };
     }
 
     @ApiOperation({ summary: 'Update a recurring expense' })
