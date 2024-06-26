@@ -15,6 +15,7 @@ import { UpdateTeamBodyDto } from './dto/update-team.user.body.dto';
 import { TeamMemberResDto } from './dto/team-member.res.dto';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { InviteTeamResDto } from './dto/invite-team.res.dto';
+import { UpdateTeamMemberBodyDto } from './dto/update-team-member.body.dto';
 
 @ApiTags('Teams')
 @Controller(`${API_V1_USER_PATH}/teams`)
@@ -53,13 +54,17 @@ export class TeamsUserController {
         return { teamId, body };
     }
 
-    @ApiOperation({ summary: 'Leave a team' })
+    @ApiOperation({ summary: 'Update a team member' })
     @HttpCode(200)
-    @Patch(':id')
-    leaveTeam(@Param('id') teamId: string) {
-        // 1. Only normal users can leave a team
-        // 2. Set isDeleted to true
-        return teamId;
+    @Patch(':teamId/members/:teamMemberId')
+    updateTeamMember(
+        @Param('teamId') teamId: string,
+        @Param('teamMemberId') teamMemberId: string,
+        @Body() body: UpdateTeamMemberBodyDto,
+    ): void {
+        // 1. Check if a user is team admin
+        // 2. Update a team member
+        console.log(teamId, teamMemberId, body);
     }
 
     @ApiOperation({ summary: 'Get all team members' })
@@ -95,5 +100,14 @@ export class TeamsUserController {
                 new Date(),
             ),
         ];
+    }
+
+    @ApiOperation({ summary: 'Leave a team' })
+    @HttpCode(200)
+    @Patch(':id')
+    leaveTeam(@Param('id') teamId: string) {
+        // 1. Only normal users can leave a team
+        // 2. Set isDeleted to true
+        return teamId;
     }
 }
