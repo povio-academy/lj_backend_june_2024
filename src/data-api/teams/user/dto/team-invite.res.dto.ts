@@ -1,6 +1,6 @@
 import { Expose } from 'class-transformer';
 
-export class InviteTeamResDto {
+export class TeamInviteResDto {
     @Expose()
     id: string;
 
