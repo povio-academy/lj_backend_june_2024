@@ -13,7 +13,7 @@ export class PagedReqDto {
         description: 'Page number',
         example: 1,
     })
-    readonly page?: number;
+    readonly page?: number = 1;
 
     @IsNumberString()
     @IsOptional()
@@ -21,14 +21,14 @@ export class PagedReqDto {
         description: 'Number of items per page',
         example: 10,
     })
-    readonly pageSize?: number;
+    readonly pageSize?: number = 10;
 
     @IsOptional()
     @ApiProperty({
         description: 'Sort order',
         example: 'ASC',
     })
-    readonly sortOrder?: SortOrder;
+    readonly sortOrder?: SortOrder = SortOrder.ASC;
 
     @IsOptional()
     @ApiProperty({
