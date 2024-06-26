@@ -1,6 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { TransactionType } from '@prisma/client';
-import { Type } from 'class-transformer';
 import {
     ArrayMaxSize,
     ArrayMinSize,
@@ -10,9 +9,12 @@ import {
     IsString,
     IsUUID,
     MaxLength,
-    ValidateNested,
 } from 'class-validator';
-import { ImageIdDto } from './image-id.user.dto';
+import {
+    OBJECT_IMAGES_MAX_LENGTH,
+    OBJECT_IMAGES_MIN_LENGTH,
+    OBJECT_NOTE_MAX_LENGTH,
+} from '~common/domain.constants';
 
 export class UpdateTransactionUserDto {
     @ApiProperty({
@@ -31,7 +33,7 @@ export class UpdateTransactionUserDto {
 
     @ApiProperty({ description: 'Note', example: 'This is a note' })
     @IsString()
-    @MaxLength(500)
+    @MaxLength(OBJECT_NOTE_MAX_LENGTH)
     note?: string;
 
     @ApiProperty({ description: 'Amount', example: 100 })
@@ -53,11 +55,10 @@ export class UpdateTransactionUserDto {
             'b7895fef-1234-4678-bcde-56d7ee3e4gh1',
         ],
     })
-    @ArrayMinSize(1)
-    @ArrayMaxSize(20)
-    @ValidateNested({ each: true })
-    @Type(() => ImageIdDto)
-    imagesIds?: ImageIdDto[];
+    @ArrayMinSize(OBJECT_IMAGES_MIN_LENGTH)
+    @ArrayMaxSize(OBJECT_IMAGES_MAX_LENGTH)
+    @IsUUID(4, { each: true })
+    imagesIds?: string[];
 
     constructor() {}
 }

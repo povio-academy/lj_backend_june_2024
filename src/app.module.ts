@@ -15,6 +15,10 @@ import { SubcategoriesAdminDataApiModule } from '~data-api/subcategories/admin/s
 import { SubcategoriesUserDataApiModule } from '~data-api/subcategories/user/subcategories.user.data-api.module';
 import { UserModule } from '~modules/user/user.module';
 import { DbModule } from '~db/db.module';
+import { UsersAdminModule } from '~data-api/users/admin/users.admin.module';
+import { ImagesUserModule } from '~data-api/images/images.user.module';
+import { RecurringTransactionsUserDataApiModule } from '~data-api/recurring-transactions/user/recurring-transactions.user.data-api.module';
+import { TransactionsAdminModule } from '~data-api/transactions/admin/transactions.admin.module';
 
 @Module({
     imports: [
@@ -33,6 +37,10 @@ import { DbModule } from '~db/db.module';
         AuthDataApiModule,
         DbModule,
         UserModule,
+        UsersAdminModule,
+        ImagesUserModule,
+        RecurringTransactionsUserDataApiModule,
+        TransactionsAdminModule,
     ],
     controllers: [AppController],
 })

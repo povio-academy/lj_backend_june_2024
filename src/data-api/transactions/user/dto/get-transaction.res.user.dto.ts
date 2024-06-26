@@ -1,63 +1,63 @@
 import { ApiProperty } from '@nestjs/swagger';
-import {
-    ArrayMaxSize,
-    ArrayMinSize,
-    IsEnum,
-    IsNotEmpty,
-    IsNumber,
-    IsPositive,
-    IsString,
-    IsUUID,
-    MaxLength,
-} from 'class-validator';
+import { Expose } from 'class-transformer';
 import { TransactionType } from '~common/enums';
-import {
-    OBJECT_IMAGES_MAX_LENGTH,
-    OBJECT_IMAGES_MIN_LENGTH,
-    OBJECT_NOTE_MAX_LENGTH,
-} from '~common/domain.constants';
 
-export class CreateTransactionUserDto {
+export class GetTransactionResUserDto {
+    @ApiProperty({
+        description: 'Transaction ID',
+        example: 'c6895fef-5456-4665-aece-14c2ee1e2fe0',
+    })
+    @Expose()
+    transactionId: string;
+
+    @ApiProperty({
+        description: 'User ID',
+        example: 'c6895fef-5456-4665-aece-14c2ee1e2fe0',
+    })
+    userId: string;
+
     @ApiProperty({
         description: 'Team ID',
         example: 'c6895fef-5456-4665-aece-14c2ee1e2fe0',
     })
-    @IsUUID()
-    readonly teamId?: string;
+    @Expose()
+    teamId?: string;
 
     @ApiProperty({
         description: 'Category ID',
         example: 'c6895fef-5456-4665-aece-14c2ee1e2fe0',
     })
-    @IsUUID()
-    @IsNotEmpty()
-    readonly categoryId: string;
+    @Expose()
+    categoryId: string;
 
     @ApiProperty({
         description: 'Subcategory ID',
         example: 'c6895fef-5456-4665-aece-14c2ee1e2fe0',
     })
-    @IsUUID()
-    readonly subcategoryId?: string;
+    @Expose()
+    subcategoryId?: string;
 
     @ApiProperty({ description: 'Amount', example: 100 })
-    @IsNumber()
-    @IsPositive()
-    @IsNotEmpty()
-    readonly amount: number;
+    @Expose()
+    amount: number;
 
     @ApiProperty({ description: 'Note', example: 'This is a note' })
-    @IsString()
-    @MaxLength(OBJECT_NOTE_MAX_LENGTH)
-    readonly note?: string;
+    @Expose()
+    note?: string;
 
     @ApiProperty({
         description: 'Transaction type',
         example: TransactionType.INCOME,
     })
-    @IsNotEmpty()
-    @IsEnum(TransactionType)
-    readonly type: TransactionType;
+    @Expose()
+    type: TransactionType;
+
+    @ApiProperty({
+        description: 'Created at',
+        example: '2021-07-01T00:00:00.000Z',
+    })
+    @Expose()
+    createdAt: Date;
 
     @ApiProperty({
         description: 'Images ids array',
@@ -66,9 +66,7 @@ export class CreateTransactionUserDto {
             'b7895fef-1234-4678-bcde-56d7ee3e4gh1',
         ],
     })
-    @ArrayMinSize(OBJECT_IMAGES_MIN_LENGTH)
-    @ArrayMaxSize(OBJECT_IMAGES_MAX_LENGTH)
-    @IsUUID(4, { each: true })
+    @Expose()
     imagesIds?: string[];
 
     constructor() {}
