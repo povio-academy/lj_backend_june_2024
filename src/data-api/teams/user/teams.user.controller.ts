@@ -6,6 +6,7 @@ import {
     Param,
     Patch,
     Post,
+    Query,
 } from '@nestjs/common';
 import { API_V1_USER_PATH } from '~common/http/http.constant';
 import { CreateTeamUserBodyDto } from './dto/create-team.user.body.dto';
@@ -16,6 +17,8 @@ import { TeamMemberResDto } from './dto/team-member.res.dto';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { TeamInviteResDto } from './dto/team-invite.res.dto';
 import { UpdateTeamMemberBodyDto } from './dto/update-team-member.body.dto';
+import { PagedReqDto } from '~data-api/common/dto/paged.req.dto';
+import { PagedResDto } from '~data-api/common/dto/paged.res.dto';
 
 @ApiTags('Teams')
 @Controller(`${API_V1_USER_PATH}/teams`)
@@ -77,37 +80,57 @@ export class TeamsUserController {
 
     @ApiOperation({ summary: 'Get all team members' })
     @Get(':id/members')
-    getTeamMembers(@Param('id') teamId: string): TeamMemberResDto[] {
+    getTeamMembers(
+        @Param('id') teamId: string,
+        @Query() paginationQuery: PagedReqDto,
+    ): PagedResDto<TeamMemberResDto> {
         // 1. Get userId from JWT token
         // 2. Check if user is in a team with ID: teamId
         // 3. Get all members of team with ID: teamId
         // 4. implement pagination
         console.log(teamId);
-        return [
-            new TeamMemberResDto(
-                'teamMemberID',
-                'Oliver',
-                'Smith',
-                'oliver.smith@gmail.com',
-                false,
-            ),
-        ];
+        return {
+            data: [
+                new TeamMemberResDto(
+                    'teamMemberID',
+                    'Oliver',
+                    'Smith',
+                    'oliver.smith@gmail.com',
+                    false,
+                ),
+            ],
+            pagingInfo: {
+                page: 1,
+                pageSize: 10,
+                total: 1,
+            },
+        };
     }
 
     @Get(':id/members/invites')
-    getTeamInvites(@Param('id') teamId: string): TeamInviteResDto[] {
+    getTeamInvites(
+        @Param('id') teamId: string,
+        @Query() paginationQuery: PagedReqDto,
+    ): PagedResDto<TeamInviteResDto> {
         // 1. Check if user is team admin
         // 2. Return only invites with pending status
         console.log(teamId);
-        return [
-            new TeamInviteResDto(
-                'Invite ID',
-                'Inviter ID',
-                'example@gmail.com',
-                false,
-                new Date(),
-            ),
-        ];
+        return {
+            data: [
+                new TeamInviteResDto(
+                    'Invite ID',
+                    'Inviter ID',
+                    'example@gmail.com',
+                    false,
+                    new Date(),
+                ),
+            ],
+            pagingInfo: {
+                page: 1,
+                pageSize: 10,
+                total: 1,
+            },
+        };
     }
 
     @ApiOperation({ summary: 'Leave a team' })
