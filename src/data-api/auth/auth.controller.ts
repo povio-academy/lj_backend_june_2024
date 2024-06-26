@@ -16,7 +16,6 @@ export class AuthController {
     })
     @Post('/register')
     @HttpCode(204)
-
     async register(@Body() body: RegisterReqDto) {
         await this.createUserUseCase.execute(body);
     }
