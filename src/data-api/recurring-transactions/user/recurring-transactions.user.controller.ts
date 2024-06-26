@@ -15,6 +15,7 @@ import { RecurringExpenseUserResDto } from './dto/recurring-expense.user.res.dto
 import { UpdateRecurringTransactionUserBodyDto } from './dto/update-recurring-transaction.user.body.dto';
 import { PagedReqDto } from '~data-api/common/dto/paged.req.dto';
 import { PagedResDto } from '~data-api/common/dto/paged.res.dto';
+import { ApiPaginationResponse } from '~common/decorators/api-pagination.res.decorator';
 
 @ApiTags('Recurring transactions')
 @Controller(API_V1_USER_PATH + '/recurring-transactions')
@@ -37,11 +38,12 @@ export class RecurringTransactionsUserController {
         return;
     }
 
+    @ApiPaginationResponse(RecurringExpenseUserResDto)
     @ApiOperation({ summary: 'Get all recurring expenses' })
     @Get()
     async getRecurringExpenses(
         @Query() paging: PagedReqDto,
-    ): Promise<PagedResDto<RecurringExpenseUserResDto>> {
+    ): Promise<PagedResDto> {
         return {
             data: [
                 new RecurringExpenseUserResDto(
@@ -58,14 +60,13 @@ export class RecurringTransactionsUserController {
                     new Date(2024, 5, 26),
                 ),
             ],
-            pagingInfo: {
+            metadata: {
                 page: 1,
                 pageSize: 10,
                 total: 1,
             },
         };
     }
-
     @ApiOperation({ summary: 'Update a recurring expense' })
     @Patch(':id')
     async updateRecurringExpense(

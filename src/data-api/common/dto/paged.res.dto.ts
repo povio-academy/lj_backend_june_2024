@@ -1,15 +1,17 @@
 import { Expose } from 'class-transformer';
-import { PagingInfo } from './paging-info';
+import { PagingMetadataDto } from './paging-metadata.dto';
+import { ApiProperty } from '@nestjs/swagger';
 
-export class PagedResDto<T> {
+export class PagedResDto {
     @Expose()
-    data: T[];
+    data: any[];
 
+    @ApiProperty({ type: PagingMetadataDto })
     @Expose()
-    pagingInfo: PagingInfo;
+    metadata: PagingMetadataDto;
 
-    constructor(data: T[], pagingInfo: PagingInfo) {
+    constructor(data: any[], metadata: PagingMetadataDto) {
         this.data = data;
-        this.pagingInfo = pagingInfo;
+        this.metadata = metadata;
     }
 }

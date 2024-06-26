@@ -19,8 +19,9 @@ import { SearchTransactionResUserDto } from './dto/search-transaction.res.user.d
 import { GetTransactionReportUserDto } from './dto/get-transaction-report.user.dto';
 import { PagedResDto } from '~data-api/common/dto/paged.res.dto';
 import { PagedReqDto } from '~data-api/common/dto/paged.req.dto';
-import { PagingInfo } from '~data-api/common/dto/paging-info';
 import { GetTransactionResUserDto } from './dto/get-transaction.res.user.dto';
+import { ApiPaginationResponse } from '~common/decorators/api-pagination.res.decorator';
+import { PagingMetadataDto } from '~data-api/common/dto/paging-metadata.dto';
 
 @ApiTags('Transactions')
 @Controller(API_V1_USER_PATH + '/transactions/')
@@ -36,18 +37,13 @@ export class TransactionsUserController {
         return new SearchTransactionResUserDto();
     }
 
-    @ApiOperation({ summary: 'Update an existing transaction' })
-    @Post(':id')
+    @ApiOperation({ summary: 'Update/delete an existing transaction' })
+    @Patch(':id')
     @HttpCode(200)
     async updateTransaction(
         @Param('id') id: string,
         @Body() updateTransactionUserDto: UpdateTransactionUserDto,
     ): Promise<void> {}
-
-    @ApiOperation({ summary: 'Delete an existing transaction' })
-    @Patch(':id')
-    @HttpCode(200)
-    async deleteTransaction(@Param('id') id: string): Promise<void> {}
 
     @ApiOperation({
         summary: 'Get a report of transactions, based on parameters',
@@ -65,42 +61,57 @@ export class TransactionsUserController {
         return new StreamableFile(buffer);
     }
 
+    @ApiPaginationResponse(SearchTransactionReqUserDto)
     @ApiOperation({ summary: 'Search transactions' })
     @Get()
     @HttpCode(200)
     async searchTransactions(
         @Query() paging: PagedReqDto,
         searchQuery: SearchTransactionReqUserDto,
-    ): Promise<PagedResDto<SearchTransactionResUserDto>> {
+    ): Promise<PagedResDto> {
         // get user id from JWT token
         return {
             data: [new SearchTransactionResUserDto()],
-            pagingInfo: new PagingInfo({ page: 1, pageSize: 10, total: 1 }),
+            metadata: new PagingMetadataDto({
+                page: 1,
+                pageSize: 10,
+                total: 1,
+            }),
         };
     }
 
+    @ApiPaginationResponse(GetTransactionResUserDto)
     @ApiOperation({ summary: 'Get all user transactions' })
     @Get('/user')
     @HttpCode(200)
     async getTransactionsUser(
         @Query() paging: PagedReqDto,
-    ): Promise<PagedResDto<GetTransactionResUserDto>> {
+    ): Promise<PagedResDto> {
         return {
             data: [new GetTransactionResUserDto()],
-            pagingInfo: new PagingInfo({ page: 1, pageSize: 10, total: 1 }),
+            metadata: new PagingMetadataDto({
+                page: 1,
+                pageSize: 10,
+                total: 1,
+            }),
         };
     }
 
+    @ApiPaginationResponse(GetTransactionResUserDto)
     @ApiOperation({ summary: 'Get all team transactions' })
     @Get('/team/:id')
     @HttpCode(200)
     async getTransactionsTeam(
         @Param('id') id: string,
         @Query() paging: PagedReqDto,
-    ): Promise<PagedResDto<GetTransactionResUserDto>> {
+    ): Promise<PagedResDto> {
         return {
             data: [new GetTransactionResUserDto()],
-            pagingInfo: new PagingInfo({ page: 1, pageSize: 10, total: 1 }),
+            metadata: new PagingMetadataDto({
+                page: 1,
+                pageSize: 10,
+                total: 1,
+            }),
         };
     }
 }

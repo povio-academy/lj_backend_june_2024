@@ -19,6 +19,7 @@ import { TeamInviteResDto } from './dto/team-invite.res.dto';
 import { UpdateTeamMemberBodyDto } from './dto/update-team-member.body.dto';
 import { PagedReqDto } from '~data-api/common/dto/paged.req.dto';
 import { PagedResDto } from '~data-api/common/dto/paged.res.dto';
+import { ApiPaginationResponse } from '~common/decorators/api-pagination.res.decorator';
 
 @ApiTags('Teams')
 @Controller(`${API_V1_USER_PATH}/teams`)
@@ -78,12 +79,13 @@ export class TeamsUserController {
         console.log(teamId, teamMemberId, body);
     }
 
+    @ApiPaginationResponse(TeamMemberResDto)
     @ApiOperation({ summary: 'Get all team members' })
     @Get(':id/members')
     getTeamMembers(
         @Param('id') teamId: string,
         @Query() paginationQuery: PagedReqDto,
-    ): PagedResDto<TeamMemberResDto> {
+    ): PagedResDto {
         // 1. Get userId from JWT token
         // 2. Check if user is in a team with ID: teamId
         // 3. Get all members of team with ID: teamId
@@ -99,7 +101,7 @@ export class TeamsUserController {
                     false,
                 ),
             ],
-            pagingInfo: {
+            metadata: {
                 page: 1,
                 pageSize: 10,
                 total: 1,
@@ -107,11 +109,12 @@ export class TeamsUserController {
         };
     }
 
+    @ApiPaginationResponse(TeamInviteResDto)
     @Get(':id/members/invites')
     getTeamInvites(
         @Param('id') teamId: string,
         @Query() paginationQuery: PagedReqDto,
-    ): PagedResDto<TeamInviteResDto> {
+    ): PagedResDto {
         // 1. Check if user is team admin
         // 2. Return only invites with pending status
         console.log(teamId);
@@ -125,14 +128,13 @@ export class TeamsUserController {
                     new Date(),
                 ),
             ],
-            pagingInfo: {
+            metadata: {
                 page: 1,
                 pageSize: 10,
                 total: 1,
             },
         };
     }
-
     @ApiOperation({ summary: 'Leave a team' })
     @HttpCode(200)
     @Patch(':id')
