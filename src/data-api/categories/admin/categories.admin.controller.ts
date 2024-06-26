@@ -36,7 +36,7 @@ export class CategoriesAdminController {
                 new CategoryAdminResDto('id', 'name'),
                 new CategoryAdminResDto('id2', 'name2'),
             ],
-            pagingInfo: new PagingInfo({ page: 1, pageSize: 10, total: 1 }),
+            pagingInfo: new PagingInfo({ page: 1, pageSize: 10, total: 2 }),
         };
     }
 }
