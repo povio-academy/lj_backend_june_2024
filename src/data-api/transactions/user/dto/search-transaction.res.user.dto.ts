@@ -2,7 +2,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import { TransactionType } from '@prisma/client';
 import { Expose } from 'class-transformer';
 
-export class TransactionResAdminDto {
+export class SearchTransactionResUserDto {
     @ApiProperty({
         description: 'Transaction ID',
         example: 'c6895fef-5456-4665-aece-14c2ee1e2fe0',
@@ -14,11 +14,10 @@ export class TransactionResAdminDto {
         description: 'User ID',
         example: 'c6895fef-5456-4665-aece-14c2ee1e2fe0',
     })
-    @Expose()
     userId: string;
 
     @ApiProperty({
-        description: 'Transaction ID',
+        description: 'Team ID',
         example: 'c6895fef-5456-4665-aece-14c2ee1e2fe0',
     })
     @Expose()
@@ -54,6 +53,13 @@ export class TransactionResAdminDto {
     type: TransactionType;
 
     @ApiProperty({
+        description: 'Created at',
+        example: '2021-07-01T00:00:00.000Z',
+    })
+    @Expose()
+    createdAt: Date;
+
+    @ApiProperty({
         description: 'Images ids array',
         example: [
             'c6895fef-5456-4665-aece-14c2ee1e2fe0',
@@ -62,20 +68,6 @@ export class TransactionResAdminDto {
     })
     @Expose()
     imagesIds?: string[];
-
-    @ApiProperty({
-        description: 'Created at',
-        example: '2021-07-01T00:00:00.000Z',
-    })
-    @Expose()
-    createdAt: Date;
-
-    @ApiProperty({
-        description: 'Updated at',
-        example: '2021-07-01T00:00:00.000Z',
-    })
-    @Expose()
-    updatedAt: Date;
 
     constructor() {}
 }
