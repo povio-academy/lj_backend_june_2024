@@ -19,6 +19,20 @@ export class PagedReqDto {
         example: 10,
     })
     readonly pageSize: number;
+
+    @IsOptional()
+    @ApiProperty({
+        description: 'Sort order',
+        example: 'ASC',
+    })
+    readonly sortOrder: SortOrder;
+
+    @IsOptional()
+    @ApiProperty({
+        description: 'Sort by',
+        example: 'name',
+    })
+    readonly sortBy: string;
 }
 
 export enum SortOrder {
