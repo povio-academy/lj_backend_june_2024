@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Expose } from 'class-transformer/types/decorators';
+import { Expose } from 'class-transformer';
 import { TransactionType } from '~common/enums';
 
 export class GetTransactionResUserDto {
