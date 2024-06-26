@@ -8,7 +8,7 @@ import {
     ValidateNested,
 } from 'class-validator';
 
-export class TransactionQueryAdminDto {
+export class TransactionSearchReqAdminDto {
     @ApiProperty({
         description: 'Transaction id',
         example: [
