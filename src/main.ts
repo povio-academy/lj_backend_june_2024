@@ -44,8 +44,8 @@ async function bootstrap() {
     app.useGlobalFilters(new AllExceptionsFilter());
 
     const config = new DocumentBuilder()
-        .setTitle('Gold Price Tracker API')
-        .setDescription('API docs for Gold Price Tracker API')
+        .setTitle('Expense API')
+        .setDescription('API docs for Expense tracker API')
         .setVersion('1.0')
         .addBearerAuth()
         .build();

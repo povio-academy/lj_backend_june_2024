@@ -1,3 +1,4 @@
+import { ApiProperty } from '@nestjs/swagger';
 import { Expose } from 'class-transformer';
 
 type PageInfoProps = {
@@ -6,13 +7,16 @@ type PageInfoProps = {
     pageSize: number;
 };
 
-export class PagingInfo {
+export class PagingMetadataDto {
+    @ApiProperty({ description: 'Total number of items', example: 50 })
     @Expose()
     total: number;
 
+    @ApiProperty({ description: 'Current page number', example: 3 })
     @Expose()
     page: number;
 
+    @ApiProperty({ description: 'Number of items per page', example: 10 })
     @Expose()
     pageSize: number;
 

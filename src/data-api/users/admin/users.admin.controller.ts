@@ -16,7 +16,8 @@ import { UpdateUserAdminReqDto } from './dto/update.user.admin.req.dto';
 import { PagedReqDto } from '~data-api/common/dto/paged.req.dto';
 import { PagedResDto } from '~data-api/common/dto/paged.res.dto';
 import { UserDto } from './dto/user.dto';
-import { PagingInfo } from '~data-api/common/dto/paging-info';
+import { ApiPaginationResponse } from '~common/decorators/api-pagination.res.decorator';
+import { PagingMetadataDto } from '~data-api/common/dto/paging-metadata.dto';
 
 @Injectable()
 @Controller(`${API_V1_ADMIN_PATH}/users`)
@@ -29,25 +30,23 @@ export class UsersAdminController {
     @HttpCode(204)
     async invite(@Body() body: InviteReqDto) {}
 
+    @ApiPaginationResponse(UserDto)
     @ApiOperation({
         summary: 'Get all users',
     })
     @Get()
-    async getUsers(
-        @Query() paging: PagedReqDto,
-    ): Promise<PagedResDto<UserDto>> {
+    async getUsers(@Query() paging: PagedReqDto): Promise<PagedResDto> {
         //add pagination
         const users = new UserDto();
         return new PagedResDto(
             [users],
-            new PagingInfo({
+            new PagingMetadataDto({
                 total: 1,
                 page: paging.page,
                 pageSize: paging.pageSize,
             }),
         );
     }
-
     @ApiOperation({ summary: 'Update/Delete existing users data' })
     @Patch(':id')
     @HttpCode(200)
@@ -57,17 +56,17 @@ export class UsersAdminController {
     ) {
         //delete and update user data
     }
+
+    @ApiPaginationResponse(UserDto)
     @ApiOperation({ summary: 'Get all invited users' })
     @Get('/invites')
-    async getInvitedUsers(
-        @Query() paging: PagedReqDto,
-    ): Promise<PagedResDto<UserDto>> {
+    async getInvitedUsers(@Query() paging: PagedReqDto): Promise<PagedResDto> {
         //return users with a UserRole.PENDING
         //add pagination
         const users = new UserDto();
         return new PagedResDto(
             [users],
-            new PagingInfo({
+            new PagingMetadataDto({
                 total: 1,
                 page: paging.page,
                 pageSize: paging.pageSize,
