@@ -13,6 +13,8 @@ import { CategoriesUserDataApiModule } from '~data-api/categories/user/categorie
 import { AuthDataApiModule } from '~data-api/auth/auth.data-api.module';
 import { SubcategoriesAdminDataApiModule } from '~data-api/subcategories/admin/subcategories.admin.data-api.module';
 import { SubcategoriesUserDataApiModule } from '~data-api/subcategories/user/subcategories.user.data-api.module';
+import { UserModule } from '~modules/user/user.module';
+import { DbModule } from '~db/db.module';
 import { UsersAdminModule } from '~data-api/users/admin/users.admin.module';
 import { ImagesUserModule } from '~data-api/images/images.user.module';
 import { RecurringTransactionsUserDataApiModule } from '~data-api/recurring-transactions/user/recurring-transactions.user.data-api.module';
@@ -33,6 +35,8 @@ import { TransactionsAdminModule } from '~data-api/transactions/admin/transactio
         SubcategoriesAdminDataApiModule,
         SubcategoriesUserDataApiModule,
         AuthDataApiModule,
+        DbModule,
+        UserModule,
         UsersAdminModule,
         ImagesUserModule,
         RecurringTransactionsUserDataApiModule,
