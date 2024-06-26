@@ -3,13 +3,13 @@ import { PagingInfo } from './paging-info';
 
 export class PagedResDto<T> {
     @Expose()
-    items: T[];
+    data: T[];
 
     @Expose()
     pagingInfo: PagingInfo;
 
-    constructor(items: T[], pagingInfo: PagingInfo) {
-        this.items = items;
+    constructor(data: T[], pagingInfo: PagingInfo) {
+        this.data = data;
         this.pagingInfo = pagingInfo;
     }
 }
