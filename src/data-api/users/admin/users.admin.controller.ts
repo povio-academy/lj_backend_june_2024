@@ -7,12 +7,15 @@ import {
     Param,
     Patch,
     Post,
+    Query,
 } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { API_V1_ADMIN_PATH } from '~common/http/http.constant';
 import { InviteReqDto } from './dto/invite.req.dto';
 import { UsersAdminResDto } from './dto/users.admin.res.dto';
 import { UpdateUserAdminReqDto } from './dto/update.user.admin.req.dto';
+import { PagingInfo } from '~data-api/common/dto/paging-info';
+import { PagedReqDto } from '~data-api/common/dto/paged.req.dto';
 
 @Injectable()
 @Controller(`${API_V1_ADMIN_PATH}/users`)
@@ -29,7 +32,7 @@ export class UsersAdminController {
         summary: 'Get all users',
     })
     @Get('/users')
-    async getUsers(): Promise<UsersAdminResDto> {
+    async getUsers(@Query() paging: PagedReqDto): Promise<UsersAdminResDto> {
         //add pagination
         return new UsersAdminResDto();
     }
