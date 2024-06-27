@@ -35,4 +35,12 @@ export class InvitePrismaRepository implements IInviteRepository {
         });
         return InviteEntity.toDomain(invite);
     }
+
+    getByEmail(email: string): Promise<InviteEntity[]> {
+        const invites = this.prisma.client.invite.findMany({
+            where: { email },
+            orderBy: { createdAt: 'desc' },
+        });
+        return invites.then((invites) => invites.map(InviteEntity.toDomain));
+    }
 }
