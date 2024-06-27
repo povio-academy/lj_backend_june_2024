@@ -4,14 +4,16 @@ import {
     Injectable,
     UnauthorizedException,
 } from '@nestjs/common';
-import { InitUserFromJwtService } from '~modules/auth/use-cases/init-user-from-jwt.use-case';
+import { AuthAsyncCtx } from '~modules/auth/auth-async-ctx';
+import { GetUserFromDbService } from '~modules/auth/use-cases/get-user-from-db.user-case';
 import { VerifyJwtTokenService } from '~modules/auth/use-cases/verify-jwt-token.use-case';
 
 @Injectable()
 export class JwtGuard implements CanActivate {
     constructor(
         private verifyJwtTokenService: VerifyJwtTokenService,
-        private initUserFromJwtService: InitUserFromJwtService,
+        private getUserFromDbService: GetUserFromDbService,
+        private authCtx: AuthAsyncCtx,
     ) {}
 
     async canActivate(context: ExecutionContext): Promise<boolean> {
@@ -37,12 +39,15 @@ export class JwtGuard implements CanActivate {
                 });
             });
 
-        const currentUser = await this.initUserFromJwtService.execute(
-            decoded.email,
-        );
-        if (!currentUser) {
-            throw new UnauthorizedException('User not found');
-        }
+        const currentUser = await this.getUserFromDbService
+            .execute(decoded.email)
+            .catch((err) => {
+                throw new UnauthorizedException('User not found', {
+                    cause: err,
+                });
+            });
+
+        this.authCtx.setCurrentUser(currentUser);
 
         return true;
     }

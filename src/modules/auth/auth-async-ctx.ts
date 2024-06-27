@@ -1,4 +1,3 @@
-import { User } from '@prisma/client';
 import { InjectableProxy } from 'nestjs-cls';
 import { UserEntity } from '~modules/user/user.entity';
 
@@ -8,6 +7,9 @@ export class AuthAsyncCtx {
 
     private _currentUser!: UserEntity | null;
     get currentUser() {
+        if (!this._currentUser) {
+            throw new Error('Internal error - user not found');
+        }
         return this._currentUser;
     }
 
