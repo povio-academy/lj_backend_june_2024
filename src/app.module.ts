@@ -21,6 +21,7 @@ import { ImagesUserModule } from '~data-api/images/images.user.module';
 import { RecurringTransactionsUserDataApiModule } from '~data-api/recurring-transactions/user/recurring-transactions.user.data-api.module';
 import { TransactionsAdminModule } from '~data-api/transactions/admin/transactions.admin.module';
 import { NotificationModule } from '~modules/notification/notification.module';
+import { TeamsUserDataApiModule } from '~data-api/teams/user/teams.user.data-api.module';
 
 @Module({
     imports: [
@@ -32,6 +33,7 @@ import { NotificationModule } from '~modules/notification/notification.module';
         PrismaModule,
         SendgridModule,
         TeamsModule,
+        TeamsUserDataApiModule,
         TransactionsUserModule,
         CategoriesAdminDataApiModule,
         CategoriesUserDataApiModule,
