@@ -31,23 +31,24 @@ export class JwtGuard implements CanActivate {
             throw new UnauthorizedException('Token not provided');
         }
 
-        const decoded = await this.verifyJwtTokenService
-            .execute(token)
-            .catch((err) => {
-                throw new UnauthorizedException('Invalid token', {
-                    cause: err,
-                });
-            });
+        try {
+            const decoded = await this.verifyJwtTokenService.execute(token);
 
-        const currentUser = await this.getUserFromDbService
-            .execute(decoded.email)
-            .catch((err) => {
+            try {
+                const currentUser = await this.getUserFromDbService.execute(
+                    decoded.email,
+                );
+                this.authCtx.setCurrentUser(currentUser);
+            } catch (err) {
                 throw new UnauthorizedException('User not found', {
                     cause: err,
                 });
+            }
+        } catch (err) {
+            throw new UnauthorizedException('Invalid token', {
+                cause: err,
             });
-
-        this.authCtx.setCurrentUser(currentUser);
+        }
 
         return true;
     }
