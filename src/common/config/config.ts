@@ -3,6 +3,7 @@ import { IsNumber, IsObject, ValidateNested } from 'class-validator';
 import { LoggerConfig } from '~common/logging/logger.config';
 import { PrismaConfig } from '~vendor/prisma/prisma.config';
 import { AuthConfig } from '~modules/auth/auth.config';
+import { SendgridConfig } from '~vendor/sendgrid/sendgrid.config';
 
 export class AppConfig {
     @IsNumber()
@@ -28,4 +29,9 @@ export class Config {
     @IsObject()
     @ValidateNested()
     public readonly auth!: AuthConfig;
+
+    @Type(() => SendgridConfig)
+    @IsObject()
+    @ValidateNested()
+    public readonly sendgrid!: SendgridConfig;
 }
