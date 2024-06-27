@@ -2,7 +2,6 @@ import { Injectable } from '@nestjs/common';
 import { AuthConfig } from '../auth.config';
 import * as jwt from 'jsonwebtoken';
 import { JwtPayload } from 'jsonwebtoken';
-import { error } from 'console';
 
 @Injectable()
 export class VerifyJwtTokenService {
