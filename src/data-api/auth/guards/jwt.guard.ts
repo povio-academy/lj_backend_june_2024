@@ -5,14 +5,14 @@ import {
     UnauthorizedException,
 } from '@nestjs/common';
 import { AuthAsyncCtx } from '~modules/auth/auth-async-ctx';
-import { GetUserFromDbService } from '~modules/auth/use-cases/get-user-from-db.user-case';
-import { VerifyJwtTokenService } from '~modules/auth/use-cases/verify-jwt-token.use-case';
+import { VerifyJwtTokenUseCase } from '~modules/auth/use-cases/verify-jwt-token.use-case';
+import { GetUserFromDbUseCase } from '~modules/user/use-cases/get-user-from-db.user-case';
 
 @Injectable()
 export class JwtGuard implements CanActivate {
     constructor(
-        private verifyJwtTokenService: VerifyJwtTokenService,
-        private getUserFromDbService: GetUserFromDbService,
+        private verifyJwtTokenUseCase: VerifyJwtTokenUseCase,
+        private getUserFromDbUseCase: GetUserFromDbUseCase,
         private authCtx: AuthAsyncCtx,
     ) {}
 
@@ -32,10 +32,10 @@ export class JwtGuard implements CanActivate {
         }
 
         try {
-            const decoded = await this.verifyJwtTokenService.execute(token);
+            const decoded = await this.verifyJwtTokenUseCase.execute(token);
 
             try {
-                const currentUser = await this.getUserFromDbService.execute(
+                const currentUser = await this.getUserFromDbUseCase.execute(
                     decoded.email,
                 );
                 this.authCtx.setCurrentUser(currentUser);

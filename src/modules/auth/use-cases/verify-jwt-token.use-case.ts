@@ -4,7 +4,7 @@ import * as jwt from 'jsonwebtoken';
 import { JwtPayload } from 'jsonwebtoken';
 
 @Injectable()
-export class VerifyJwtTokenService {
+export class VerifyJwtTokenUseCase {
     constructor(private config: AuthConfig) {}
 
     execute(token: string): Promise<JwtPayload> {

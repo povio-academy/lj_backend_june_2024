@@ -4,7 +4,7 @@ import { IUserRepository } from '~modules/user/user.repository';
 import { UserEntity } from '~modules/user/user.entity';
 
 @Injectable()
-export class GetUserFromDbService {
+export class GetUserFromDbUseCase {
     constructor(
         @Inject(USER_DB_REPOSITORY)
         private readonly userDbRepository: IUserRepository,
