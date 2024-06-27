@@ -7,7 +7,6 @@ import { AuthModule } from '~modules/auth/auth.module';
 import { ClsModule } from '~common/cls/cls.module';
 import { PrismaModule } from '~vendor/prisma/prisma.module';
 import { SendgridModule } from '~vendor/sendgrid/sendgrid.module';
-import { TeamsModule } from '~data-api/teams/teams.module';
 import { TransactionsUserModule } from '~data-api/transactions/user/transactions.user.module';
 import { CategoriesAdminDataApiModule } from '~data-api/categories/admin/categories.admin.data-api.module';
 import { CategoriesUserDataApiModule } from '~data-api/categories/user/categories.user.data-api.module';
@@ -32,7 +31,6 @@ import { TeamsUserDataApiModule } from '~data-api/teams/user/teams.user.data-api
         AuthModule,
         PrismaModule,
         SendgridModule,
-        TeamsModule,
         TeamsUserDataApiModule,
         TransactionsUserModule,
         CategoriesAdminDataApiModule,
