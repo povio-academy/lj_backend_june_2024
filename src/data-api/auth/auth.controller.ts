@@ -1,4 +1,11 @@
-import { Body, Controller, HttpCode, Injectable, Post } from '@nestjs/common';
+import {
+    BadRequestException,
+    Body,
+    Controller,
+    HttpCode,
+    Injectable,
+    Post,
+} from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { RegisterReqDto } from './dto/register.req.dto';
 import { CreateUserUseCase } from '~modules/user/use-cases/create-user.use-case';

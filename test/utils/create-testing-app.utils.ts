@@ -1,12 +1,17 @@
+import { Reflector } from '@nestjs/core';
 import {
     Type,
     DynamicModule,
     ForwardReference,
     Provider,
     INestApplication,
+    ValidationPipe,
+    ClassSerializerInterceptor,
 } from '@nestjs/common';
 import { NestApplicationContextOptions } from '@nestjs/common/interfaces/nest-application-context-options.interface';
 import { Test, TestingModuleBuilder } from '@nestjs/testing';
+import { ValidationError } from '~common/error/validation.error';
+import { flatten } from '~utils/validation';
 import * as nock from 'nock';
 
 import { ClsModule } from '~common/cls/cls.module';
@@ -21,6 +26,7 @@ import { ScheduleModule } from '@nestjs/schedule';
 
 import { AuthModule } from '~modules/auth/auth.module';
 import { PrismaModule } from '~vendor/prisma/prisma.module';
+import { AllExceptionsFilter } from '~common/http/exception-response.helper';
 
 interface ModuleMetadata {
     imports?: Array<
@@ -68,6 +74,25 @@ export async function startTestingApp(
     }
 
     const app = compiledModule.createNestApplication(appOptions);
+
+    app.useGlobalInterceptors(
+        new ClassSerializerInterceptor(app.get(Reflector), {
+            excludeExtraneousValues: true,
+        }),
+    );
+
+    app.useGlobalPipes(
+        new ValidationPipe({
+            transform: true, // use DTOs as runtime types
+            whitelist: true, // strip non-whitelisted
+            exceptionFactory: (fieldErrors) => {
+                const err = new ValidationError(flatten(fieldErrors));
+                return err;
+            },
+        }),
+    );
+
+    app.useGlobalFilters(new AllExceptionsFilter());
 
     await app.init();
 
