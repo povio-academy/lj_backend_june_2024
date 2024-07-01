@@ -23,6 +23,7 @@ import {
     WrongPasswordAuthError,
 } from '~modules/auth/auth.errors';
 import { UserRole } from '@prisma/client';
+import { API_V1 } from '~common/http/http.constant';
 
 describe('Login endpoint (e2e)', () => {
     let app: INestApplication;
@@ -59,7 +60,7 @@ describe('Login endpoint (e2e)', () => {
         'should not login the user - invalid credentials error - $caseDesc',
         async ({ caseDesc, payload }) => {
             const response = await request(app.getHttpServer())
-                .post('/auth/login')
+                .post(API_V1 + '/auth/login')
                 .send(payload);
 
             expect(response.body.code).toBe(INPUT_VALIDATION_ERROR);
@@ -75,7 +76,7 @@ describe('Login endpoint (e2e)', () => {
         };
 
         const response = await request(app.getHttpServer())
-            .post('/auth/login')
+            .post(API_V1 + '/auth/login')
             .send(dto);
 
         expect(response.body.code).toBe(UnknownEmailAuthError.name);
@@ -92,7 +93,7 @@ describe('Login endpoint (e2e)', () => {
             password: 'Password123!!!',
         };
         const response = await request(app.getHttpServer())
-            .post('/auth/login')
+            .post(API_V1 + '/auth/login')
             .send(dto);
 
         expect(response.body.code).toBe(WrongPasswordAuthError.name);
@@ -112,7 +113,7 @@ describe('Login endpoint (e2e)', () => {
         };
 
         const response = await request(app.getHttpServer())
-            .post('/auth/login')
+            .post(API_V1 + '/auth/login')
             .send(dto);
 
         expect(response.body.code).toBe(UserStatusPendingAuthError.name);
@@ -130,7 +131,7 @@ describe('Login endpoint (e2e)', () => {
         user = await updateUserRoleFixture(app, user, UserRole.DENIED);
 
         const response = await request(app.getHttpServer())
-            .post('/auth/login')
+            .post(API_V1 + '/auth/login')
             .send(dto);
 
         expect(response.body.code).toBe(UserStatusDeniedAuthError.name);
@@ -149,7 +150,7 @@ describe('Login endpoint (e2e)', () => {
             password: password,
         };
         const response = await request(app.getHttpServer())
-            .post('/auth/login')
+            .post(API_V1 + '/auth/login')
             .send(dto);
 
         //expect(response.statusCode).toBe(201);
