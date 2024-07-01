@@ -9,6 +9,7 @@ import {
     Patch,
     Post,
     Query,
+    UseGuards,
 } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { API_V1_ADMIN_PATH } from '~common/http/http.constant';
@@ -24,6 +25,8 @@ import { InviteUserUseCase } from '~modules/user/use-cases/invite-user.use-case'
 import { UserRole } from '@prisma/client';
 import { UserEntity } from '~modules/user/user.entity';
 import { UpdateUserAdminUseCase } from '~modules/user/use-cases/update-user-admin.use-case';
+import { JwtGuard } from '~data-api/auth/guards/jwt.guard';
+import { Roles } from '~common/decorators/roles.decorator';
 
 @Injectable()
 @Controller(`${API_V1_ADMIN_PATH}/users`)
@@ -67,6 +70,8 @@ export class UsersAdminController {
         // );
     }
 
+    @Roles(UserRole.ADMIN)
+    @UseGuards(JwtGuard)
     @ApiOperation({ summary: 'Update/Delete existing users data' })
     @Patch(':id')
     @HttpCode(200)

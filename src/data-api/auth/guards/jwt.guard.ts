@@ -1,9 +1,11 @@
 import {
     CanActivate,
     ExecutionContext,
+    ForbiddenException,
     Injectable,
     UnauthorizedException,
 } from '@nestjs/common';
+import { Reflector } from '@nestjs/core';
 import { AuthAsyncCtx } from '~modules/auth/auth-async-ctx';
 import { VerifyJwtTokenUseCase } from '~modules/auth/use-cases/verify-jwt-token.use-case';
 import { GetUserUseCase } from '~modules/user/use-cases/get-user.use-case';
@@ -14,6 +16,7 @@ export class JwtGuard implements CanActivate {
         private verifyJwtTokenUseCase: VerifyJwtTokenUseCase,
         private getUserUseCase: GetUserUseCase,
         private authCtx: AuthAsyncCtx,
+        private readonly reflector: Reflector,
     ) {}
 
     async canActivate(context: ExecutionContext): Promise<boolean> {
@@ -39,6 +42,18 @@ export class JwtGuard implements CanActivate {
                     decoded.email,
                 );
                 this.authCtx.setCurrentUser(currentUser);
+
+                const requiredRoles = this.reflector.get<string[]>(
+                    'roles',
+                    context.getHandler(),
+                );
+
+                if (
+                    requiredRoles &&
+                    !requiredRoles.includes(currentUser.role)
+                ) {
+                    throw new ForbiddenException('Access denied');
+                }
             } catch (err) {
                 throw new UnauthorizedException('User not found', {
                     cause: err,
