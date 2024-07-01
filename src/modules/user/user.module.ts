@@ -7,7 +7,7 @@ import { DbModule } from '~db/db.module';
 import { GetUserUseCase } from './use-cases/get-user.use-case';
 @Module({
     imports: [DbModule, NotificationModule],
-    exports: [CreateUserUseCase, UpdateUserAdminUseCase],
+    exports: [CreateUserUseCase, UpdateUserAdminUseCase, GetUserUseCase],
     providers: [
         CreateUserUseCase,
         GetUserUseCase,
