@@ -13,7 +13,7 @@ import { USER_DB_REPOSITORY } from '~db/db.module';
 import { OBJECT_NAME_MAX_LENGTH } from '~common/domain.constants';
 import { EmailInUseUserError } from '~modules/user/user.errors';
 
-describe('AuthController (e2e)', () => {
+describe('Register endpoint (e2e)', () => {
     let app: INestApplication;
     let userRepository: IUserRepository;
 

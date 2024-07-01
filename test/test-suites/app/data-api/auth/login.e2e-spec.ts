@@ -24,7 +24,7 @@ import {
 } from '~modules/auth/auth.errors';
 import { UserRole } from '@prisma/client';
 
-describe('Register tests (e2e)', () => {
+describe('Login endpoint (e2e)', () => {
     let app: INestApplication;
     let userRepository: IUserRepository;
     let controller: AuthController;
