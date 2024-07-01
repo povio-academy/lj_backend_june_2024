@@ -1,7 +1,7 @@
 export enum UserRole {
     ADMIN = 'ADMIN',
     USER = 'USER',
-    DENNIED = 'DENNIED',
+    DENIED = 'DENIED',
     PENDING = 'PENDING',
 }
 

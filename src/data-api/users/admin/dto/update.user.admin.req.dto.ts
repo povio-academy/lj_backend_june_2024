@@ -50,7 +50,7 @@ export class UpdateUserAdminReqDto {
 
     @ApiProperty({
         description: 'Users new role',
-        example: UserRole.DENNIED,
+        example: UserRole.DENIED,
     })
     @IsOptional()
     role?: UserRole;

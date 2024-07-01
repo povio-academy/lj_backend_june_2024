@@ -5,8 +5,8 @@ import {
     ForwardReference,
     Provider,
     INestApplication,
-    ValidationPipe,
     ClassSerializerInterceptor,
+    ValidationPipe,
 } from '@nestjs/common';
 import { NestApplicationContextOptions } from '@nestjs/common/interfaces/nest-application-context-options.interface';
 import { Test, TestingModuleBuilder } from '@nestjs/testing';
@@ -26,6 +26,7 @@ import { ScheduleModule } from '@nestjs/schedule';
 
 import { AuthModule } from '~modules/auth/auth.module';
 import { PrismaModule } from '~vendor/prisma/prisma.module';
+import { requestHandlerMiddleware } from '~common/http/request-handler.helper';
 import { AllExceptionsFilter } from '~common/http/exception-response.helper';
 
 interface ModuleMetadata {
@@ -75,6 +76,9 @@ export async function startTestingApp(
 
     const app = compiledModule.createNestApplication(appOptions);
 
+    //Refacture--- same piece of code in main
+    app.use(requestHandlerMiddleware());
+
     app.useGlobalInterceptors(
         new ClassSerializerInterceptor(app.get(Reflector), {
             excludeExtraneousValues: true,
@@ -94,6 +98,7 @@ export async function startTestingApp(
 
     app.useGlobalFilters(new AllExceptionsFilter());
 
+    //---
     await app.init();
 
     const prismaService = app.get(PrismaService);
