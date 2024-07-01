@@ -36,7 +36,7 @@ export class UsersAdminController {
     @HttpCode(204)
     async invite(@Body() body: InviteReqDto) {
         // INVITER ID SHOULD BE TAKEN FROM THE JWT TOKEN
-        console.log(this.inviteUserUseCase.execute('1', body.email));
+        console.log(this.inviteUserUseCase.execute('1 ', body.email));
     }
 
     @ApiPaginationResponse(UserDto)

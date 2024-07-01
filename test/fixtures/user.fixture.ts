@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker';
 import { INestApplication } from '@nestjs/common';
-import { CreateAccessTokenUseCase } from '~modules/auth/use-cases/create-access-token.use-case';
+//import { CreateAccessTokenUseCase } from '~modules/auth/use-cases/create-access-token.use-case';
 import { UserEntity } from '~modules/user/user.entity';
 
 import {
@@ -22,7 +22,7 @@ export const newUserFixture = async (
         await UserEntity.new({
             firstName: faker.person.firstName(),
             lastName: faker.person.lastName(),
-            username: faker.internet.userName(),
+            email: faker.internet.userName(),
             password: faker.internet.password(),
             ...data,
         }),
@@ -30,7 +30,7 @@ export const newUserFixture = async (
 
     return user;
 };
-
+/*
 export const newUserWithAccessTokenFixture = async (
     app: INestApplication,
     data: CreateUser = {},
@@ -41,4 +41,4 @@ export const newUserWithAccessTokenFixture = async (
     const accessToken = createAccessTokenUseCase.execute(user);
 
     return { user, accessToken: `Bearer ${accessToken}` };
-};
+};*/
