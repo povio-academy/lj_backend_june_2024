@@ -8,4 +8,6 @@ export interface IInviteRepository {
     update(data: InviteEntity): Promise<InviteEntity>;
 
     delete(inviteId: string): Promise<InviteEntity>;
+
+    getByEmail(email: string): Promise<InviteEntity[] | null>;
 }

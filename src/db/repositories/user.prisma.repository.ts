@@ -49,4 +49,12 @@ export class UserPrismaRepository implements IUserRepository {
 
         return UserEntity.toDomain(u);
     }
+
+    async getByEmail(email: string) {
+        const u = await this.prisma.client.user.findUnique({
+            where: { email },
+        });
+
+        return u ? UserEntity.toDomain(u) : null;
+    }
 }
