@@ -5,6 +5,7 @@ import { IUserRepository } from '~modules/user/user.repository';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import { AuthConfig } from '../auth.config';
+import { UserRole } from '~common/enums';
 
 @Injectable()
 export class LoginUseCase {
@@ -30,6 +31,17 @@ export class LoginUseCase {
             );
         }
 
+        if (user.role == UserRole.PENDING) {
+            throw new UnauthorizedException(
+                'Invalid role of a user, status: PENDING',
+            );
+        }
+
+        if (user.role == UserRole.DENIED) {
+            throw new UnauthorizedException(
+                'Invalid role of a user, status: DENIED',
+            );
+        }
         const payload = {
             userId: user.id,
             role: user.role,
