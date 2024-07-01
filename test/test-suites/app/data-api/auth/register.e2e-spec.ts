@@ -10,25 +10,12 @@ import { INPUT_VALIDATION_ERROR } from '~common/error/validation.error';
 import { AuthDataApiModule } from '~data-api/auth/auth.data-api.module';
 import { IUserRepository } from '~modules/user/user.repository';
 import { USER_DB_REPOSITORY } from '~db/db.module';
-import { LoginReqDto } from '~data-api/auth/dto/login.req.dto';
-import {
-    newUserFixture,
-    updateUserFixture,
-    updateUserRoleFixture,
-} from '@test/fixtures/user.fixture';
-import { AuthController } from '~data-api/auth/auth.controller';
-import {
-    UnknownEmailAuthError,
-    UserStatusDeniedAuthError,
-    UserStatusPendingAuthError,
-    WrongPasswordAuthError,
-} from '~modules/auth/auth.errors';
-import { UserRole } from '@prisma/client';
+import { OBJECT_NAME_MAX_LENGTH } from '~common/domain.constants';
+import { EmailInUseUserError } from '~modules/user/user.errors';
 
-describe('Register tests (e2e)', () => {
+describe('AuthController (e2e)', () => {
     let app: INestApplication;
     let userRepository: IUserRepository;
-    let controller: AuthController;
 
     beforeAll(async () => {
         const module = await createTestingApp({
@@ -36,7 +23,6 @@ describe('Register tests (e2e)', () => {
         });
 
         app = await startTestingApp(module);
-        controller = app.get(AuthController);
         userRepository = app.get<IUserRepository>(USER_DB_REPOSITORY);
     });
 
@@ -44,119 +30,70 @@ describe('Register tests (e2e)', () => {
         await stopTestingApp(app);
     });
 
-    //moje
-    it('should be defined', async () => {
-        expect(controller).toBeDefined();
-    });
-
     test.each`
-        caseDesc                 | payload
-        ${'no payload'}          | ${{}}
-        ${'email not string'}    | ${{ email: 123 }}
-        ${'email is empty'}      | ${{ email: '' }}
-        ${'password empty'}      | ${{ password: '' }}
-        ${'password not string'} | ${{ password: 123 }}
+        caseDesc                    | payload
+        ${'no payload'}             | ${{}}
+        ${'firstName not string'}   | ${{ firstname: 123 }}
+        ${'firstName empty'}        | ${{ firstname: '' }}
+        ${'firstName more than 50'} | ${{ firstname: faker.lorem.words(OBJECT_NAME_MAX_LENGTH) }}
+        ${'lastName not string'}    | ${{ firstname: 123 }}
+        ${'lastName empty'}         | ${{ firstname: '' }}
+        ${'lastName more than 50'}  | ${{ firstname: faker.lorem.words(OBJECT_NAME_MAX_LENGTH) }}
+        ${'email not string'}       | ${{ email: 123 }}
+        ${'email empty'}            | ${{ email: '' }}
+        ${'password not string'}    | ${{ password: 123 }}
+        ${'password empty'}         | ${{ password: '' }}
+        ${'password less than 8'}   | ${{ password: 'a' }}
+        ${'password not symbols'}   | ${{ password: 'ab' }}
+        ${'password not lowercase'} | ${{ password: 'ABC' }}
+        ${'password not uppercase'} | ${{ password: 'abc' }}
+        ${'password not number'}    | ${{ password: 'abcd' }}
     `(
-        'should not login the user - invalid credentials error - $caseDesc',
+        'should not create user - input validation error - $caseDesc',
         async ({ caseDesc, payload }) => {
             const response = await request(app.getHttpServer())
-                .post('/auth/login')
+                .post('/auth/register')
                 .send(payload);
+
+            expect(response.body.details.errors).toBeDefined();
+
+            if (caseDesc === 'no payload') {
+                expect(response.body.details.errors.length).toBe(4);
+            }
 
             expect(response.body.code).toBe(INPUT_VALIDATION_ERROR);
             expect(response.statusCode).toBe(400);
         },
     );
 
-    //email not found
-    it('should not login the user - email not found', async () => {
-        const dto: LoginReqDto = {
-            email: 'examp@mail.com',
-            password: 'Password123!',
+    it('should create a user', async () => {
+        const newUser = {
+            firstName: faker.person.firstName(),
+            lastName: faker.person.lastName(),
+            email: 'example@gmail.com',
+            password: faker.internet.password({ prefix: 'Pa1!' }),
         };
 
         const response = await request(app.getHttpServer())
-            .post('/auth/login')
-            .send(dto);
+            .post('/auth/register')
+            .send(newUser);
 
-        expect(response.body.code).toBe(UnknownEmailAuthError.name);
-        //expect(response.statusCode).toBe(401);
+        expect(response.statusCode).toBe(204);
     });
 
-    //wrong password
-    it('should not login the user - passwords dont match', async () => {
-        const password = faker.internet.password();
-        const user = await newUserFixture(app, password);
-
-        const dto: LoginReqDto = {
-            email: user.email,
-            password: 'Password123!!!',
-        };
-        const response = await request(app.getHttpServer())
-            .post('/auth/login')
-            .send(dto);
-
-        expect(response.body.code).toBe(WrongPasswordAuthError.name);
-        //expect(response.statusCode).toBe(401);
-    });
-
-    //wrong role
-    it('should not login the user - role is PENDING', async () => {
-        //create a password
-        const password = faker.internet.password();
-        //set user
-        const user = await newUserFixture(app, password);
-        //send the unhashed version of password
-        const dto: LoginReqDto = {
-            email: user.email,
-            password: password,
+    it('should not create user - user error - email in use', async () => {
+        const newUser = {
+            firstName: faker.person.firstName(),
+            lastName: faker.person.lastName(),
+            email: 'example@gmail.com',
+            password: faker.internet.password({ prefix: 'Pa1!' }),
         };
 
         const response = await request(app.getHttpServer())
-            .post('/auth/login')
-            .send(dto);
+            .post('/auth/register')
+            .send(newUser);
 
-        expect(response.body.code).toBe(UserStatusPendingAuthError.name);
-        //expect(response.statusCode).toBe(401);
-    });
-
-    it('should not login the user - role is DENIED', async () => {
-        const password = faker.internet.password();
-        let user = await newUserFixture(app, password);
-        const dto: LoginReqDto = {
-            email: user.email,
-            password: password,
-        };
-
-        user = await updateUserRoleFixture(app, user, UserRole.DENIED);
-
-        //user = await updateUserFixture(app, user, { role: UserRole.DENIED });
-
-        const response = await request(app.getHttpServer())
-            .post('/auth/login')
-            .send(dto);
-
-        expect(response.body.code).toBe(UserStatusDeniedAuthError.name);
-        //expect(response.statusCode).toBe(401);
-    });
-
-    //success return token
-    it('should login the user - return a token', async () => {
-        const password = faker.internet.password();
-        let user = await newUserFixture(app, password);
-
-        user = await updateUserRoleFixture(app, user, UserRole.USER);
-
-        const dto: LoginReqDto = {
-            email: user.email,
-            password: password,
-        };
-        const response = await request(app.getHttpServer())
-            .post('/auth/login')
-            .send(dto);
-
-        //expect(response.statusCode).toBe(201);
-        expect(response.body).toHaveProperty('token');
-        expect(response.body.token);
+        expect(response.body.code).toBe(EmailInUseUserError.name);
+        expect(response.statusCode).toBe(500);
     });
 });
