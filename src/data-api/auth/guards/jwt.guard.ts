@@ -6,13 +6,13 @@ import {
 } from '@nestjs/common';
 import { AuthAsyncCtx } from '~modules/auth/auth-async-ctx';
 import { VerifyJwtTokenUseCase } from '~modules/auth/use-cases/verify-jwt-token.use-case';
-import { GetUserFromDbUseCase } from '~modules/user/use-cases/get-user-from-db.user-case';
+import { GetUserUseCase } from '~modules/user/use-cases/get-user.use-case';
 
 @Injectable()
 export class JwtGuard implements CanActivate {
     constructor(
         private verifyJwtTokenUseCase: VerifyJwtTokenUseCase,
-        private getUserFromDbUseCase: GetUserFromDbUseCase,
+        private getUserUseCase: GetUserUseCase,
         private authCtx: AuthAsyncCtx,
     ) {}
 
@@ -35,7 +35,7 @@ export class JwtGuard implements CanActivate {
             const decoded = await this.verifyJwtTokenUseCase.execute(token);
 
             try {
-                const currentUser = await this.getUserFromDbUseCase.execute(
+                const currentUser = await this.getUserUseCase.execute(
                     decoded.email,
                 );
                 this.authCtx.setCurrentUser(currentUser);

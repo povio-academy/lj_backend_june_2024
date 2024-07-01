@@ -5,19 +5,19 @@ import { UserEntity } from '~modules/user/user.entity';
 import { UserNotFoundUserError } from '../user.errors';
 
 @Injectable()
-export class GetUserFromDbUseCase {
+export class GetUserUseCase {
     constructor(
         @Inject(USER_DB_REPOSITORY)
         private readonly userDbRepository: IUserRepository,
     ) {}
 
     async execute(email: string): Promise<UserEntity> {
-        const currentUser = await this.userDbRepository.getByEmail(email);
-        if (!currentUser) {
+        const user = await this.userDbRepository.getByEmail(email);
+
+        if (!user) {
             throw new UserNotFoundUserError();
         }
 
-        const userEntity = UserEntity.toDomain(currentUser);
-        return userEntity;
+        return user;
     }
 }
