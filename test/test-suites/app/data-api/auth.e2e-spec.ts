@@ -11,6 +11,7 @@ import { AuthDataApiModule } from '~data-api/auth/auth.data-api.module';
 import { IUserRepository } from '~modules/user/user.repository';
 import { USER_DB_REPOSITORY } from '~db/db.module';
 import { OBJECT_NAME_MAX_LENGTH } from '~common/domain.constants';
+import { EmailInUseUserError } from '~modules/user/user.errors';
 
 describe('AuthController (e2e)', () => {
     let app: INestApplication;
@@ -69,7 +70,7 @@ describe('AuthController (e2e)', () => {
         const newUser = {
             firstName: faker.person.firstName(),
             lastName: faker.person.lastName(),
-            email: faker.internet.email(),
+            email: 'example@gmail.com',
             password: faker.internet.password({ prefix: 'Pa1!' }),
         };
 
@@ -78,5 +79,21 @@ describe('AuthController (e2e)', () => {
             .send(newUser);
 
         expect(response.statusCode).toBe(204);
+    });
+
+    it('should not create user - user error - email in use', async () => {
+        const newUser = {
+            firstName: faker.person.firstName(),
+            lastName: faker.person.lastName(),
+            email: 'example@gmail.com',
+            password: faker.internet.password({ prefix: 'Pa1!' }),
+        };
+
+        const response = await request(app.getHttpServer())
+            .post('/auth/register')
+            .send(newUser);
+
+        expect(response.body.code).toBe(EmailInUseUserError.name);
+        expect(response.statusCode).toBe(500);
     });
 });
