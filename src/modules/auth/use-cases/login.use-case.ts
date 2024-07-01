@@ -6,6 +6,12 @@ import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import { AuthConfig } from '../auth.config';
 import { UserRole } from '~common/enums';
+import {
+    UnknownEmailAuthError,
+    UserStatusDeniedAuthError,
+    UserStatusPendingAuthError,
+    WrongPasswordAuthError,
+} from '../auth.errors';
 
 @Injectable()
 export class LoginUseCase {
@@ -19,28 +25,20 @@ export class LoginUseCase {
         const user = await this.userRepository.getByEmail(email);
 
         if (!user) {
-            throw new UnauthorizedException(
-                'Invalid credentials: invalid email',
-            );
+            throw new UnknownEmailAuthError();
         }
 
         const isPasswordValid = await bcrypt.compare(password, user.password);
         if (!isPasswordValid) {
-            throw new UnauthorizedException(
-                'Invalid credentials: invalid password',
-            );
+            throw new WrongPasswordAuthError();
         }
 
         if (user.role == UserRole.PENDING) {
-            throw new UnauthorizedException(
-                'Invalid role of a user, status: PENDING',
-            );
+            throw new UserStatusPendingAuthError();
         }
 
         if (user.role == UserRole.DENIED) {
-            throw new UnauthorizedException(
-                'Invalid role of a user, status: DENIED',
-            );
+            throw new UserStatusDeniedAuthError();
         }
         const payload = {
             userId: user.id,
