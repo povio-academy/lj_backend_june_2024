@@ -62,7 +62,7 @@ export class UserEntity extends BaseEntity<IUser> implements IUser {
             createdAt: new Date(),
             updatedAt: new Date(),
             isDeleted: false,
-            role: UserRole.USER,
+            role: UserRole.PENDING,
             ...data,
         });
     }
