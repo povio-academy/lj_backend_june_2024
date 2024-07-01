@@ -21,6 +21,9 @@ import { ApiPaginationResponse } from '~common/decorators/api-pagination.res.dec
 import { PagingMetadataDto } from '~data-api/common/dto/paging-metadata.dto';
 import { EmailService } from '~modules/notification/email/email.service';
 import { InviteUserUseCase } from '~modules/user/use-cases/invite-user.use-case';
+import { UserRole } from '@prisma/client';
+import { UserEntity } from '~modules/user/user.entity';
+import { UpdateUserAdminUseCase } from '~modules/user/use-cases/update-user-admin.use-case';
 
 @Injectable()
 @Controller(`${API_V1_ADMIN_PATH}/users`)
@@ -29,6 +32,7 @@ export class UsersAdminController {
     constructor(
         private emailService: EmailService,
         private inviteUserUseCase: InviteUserUseCase,
+        private updateUserAdminUseCase: UpdateUserAdminUseCase,
     ) {}
     @ApiOperation({
         summary: 'For an admin to invite future user',
@@ -49,42 +53,49 @@ export class UsersAdminController {
         summary: 'Get all users',
     })
     @Get()
-    async getUsers(@Query() paging: PagedReqDto): Promise<PagedResDto> {
+    //ass promise<pagedResDto>
+    async getUsers(@Query() paging: PagedReqDto) {
         //add pagination
-        const users = new UserDto();
-        return new PagedResDto(
-            [users],
-            new PagingMetadataDto({
-                total: 1,
-                page: paging.page,
-                pageSize: paging.pageSize,
-            }),
-        );
+        //return all users in PagedResDto
+        // return new PagedResDto(
+        //     [users],
+        //     new PagingMetadataDto({
+        //         total: 1,
+        //         page: paging.page,
+        //         pageSize: paging.pageSize,
+        //     }),
+        // );
     }
+
     @ApiOperation({ summary: 'Update/Delete existing users data' })
     @Patch(':id')
     @HttpCode(200)
     async updateUser(
         @Body() body: UpdateUserAdminReqDto,
         @Param('id') userId: string,
-    ) {
-        //delete and update user data
+    ): Promise<UserDto> {
+        const updateUser = await this.updateUserAdminUseCase.execute(
+            userId,
+            body,
+        );
+        return new UserDto(updateUser);
     }
 
     @ApiPaginationResponse(UserDto)
     @ApiOperation({ summary: 'Get all invited users' })
     @Get('/invites')
-    async getInvitedUsers(@Query() paging: PagedReqDto): Promise<PagedResDto> {
+    //Add promise<pagedResDto
+    async getInvitedUsers(@Query() paging: PagedReqDto) {
         //return users with a UserRole.PENDING
         //add pagination
-        const users = new UserDto();
-        return new PagedResDto(
-            [users],
-            new PagingMetadataDto({
-                total: 1,
-                page: paging.page,
-                pageSize: paging.pageSize,
-            }),
-        );
+        //const users = new UserDto();
+        // return new PagedResDto(
+        //     [users],
+        //     new PagingMetadataDto({
+        //         total: 1,
+        //         page: paging.page,
+        //         pageSize: paging.pageSize,
+        //     }),
+        // );
     }
 }
