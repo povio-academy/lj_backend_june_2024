@@ -18,17 +18,23 @@ import { PagedResDto } from '~data-api/common/dto/paged.res.dto';
 import { UserDto } from './dto/user.dto';
 import { ApiPaginationResponse } from '~common/decorators/api-pagination.res.decorator';
 import { PagingMetadataDto } from '~data-api/common/dto/paging-metadata.dto';
+import { EmailService } from '~modules/notification/email/email.service';
 
 @Injectable()
 @Controller(`${API_V1_ADMIN_PATH}/users`)
 @ApiTags('Users')
 export class UsersAdminController {
+    constructor(private emailService: EmailService) {}
     @ApiOperation({
         summary: 'For an admin to invite future user',
     })
     @Post('/invite')
     @HttpCode(204)
-    async invite(@Body() body: InviteReqDto) {}
+    async invite(@Body() body: InviteReqDto) {
+        console.log(
+            await this.emailService.sendAppInviteFromTemplate(body.email),
+        );
+    }
 
     @ApiPaginationResponse(UserDto)
     @ApiOperation({
