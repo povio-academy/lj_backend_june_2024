@@ -8,7 +8,7 @@ import { USER_DB_REPOSITORY } from '~db/db.module';
 import { genSalt, hash } from 'bcrypt';
 import { UserRole } from '~common/enums';
 
-export const newUserFixture = async (
+export const newUserFixturePassword = async (
     app: INestApplication,
     password: string,
 ) => {
@@ -20,6 +20,21 @@ export const newUserFixture = async (
             lastName: faker.person.lastName(),
             email: faker.internet.email(),
             password: await hash(password, await genSalt()),
+        }),
+    );
+
+    return user;
+};
+
+export const newUserFixture = async (app: INestApplication) => {
+    const userRepository = app.get<IUserRepository>(USER_DB_REPOSITORY);
+
+    const user = await userRepository.create(
+        await UserEntity.new({
+            firstName: faker.person.firstName(),
+            lastName: faker.person.lastName(),
+            email: faker.internet.email(),
+            password: faker.internet.password(),
         }),
     );
 
