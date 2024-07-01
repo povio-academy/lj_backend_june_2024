@@ -2,6 +2,7 @@ import { BadRequestException, Inject, Injectable } from '@nestjs/common';
 import { USER_DB_REPOSITORY } from '~db/db.module';
 import { IUserRepository } from '../user.repository';
 import { NewUser, UserEntity } from '../user.entity';
+import { EmailInUseUserError } from '../user.errors';
 import { genSalt, hash } from 'bcrypt';
 
 @Injectable()
@@ -14,7 +15,7 @@ export class CreateUserUseCase {
         const user = await this.userRepository.getByEmail(data.email);
 
         if (user) {
-            throw new BadRequestException('Email in use!');
+            throw new EmailInUseUserError();
         }
 
         const hashedPassword = await this.hash(data.password);
