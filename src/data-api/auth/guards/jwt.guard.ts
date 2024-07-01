@@ -36,30 +36,21 @@ export class JwtGuard implements CanActivate {
 
         try {
             const decoded = await this.verifyJwtTokenUseCase.execute(token);
-
-            try {
-                const currentUser = await this.getUserUseCase.execute(
-                    decoded.email,
-                );
-                this.authCtx.setCurrentUser(currentUser);
-
-                const requiredRoles = this.reflector.get<string[]>(
-                    'roles',
-                    context.getHandler(),
-                );
-
-                if (
-                    requiredRoles &&
-                    !requiredRoles.includes(currentUser.role)
-                ) {
-                    throw new ForbiddenException('Access denied');
-                }
-            } catch (err) {
-                throw new UnauthorizedException('User not found', {
-                    cause: err,
-                });
+            const currentUser = await this.getUserUseCase.execute(
+                decoded.email,
+            );
+            this.authCtx.setCurrentUser(currentUser);
+            const requiredRoles = this.reflector.get<string[]>(
+                'roles',
+                context.getHandler(),
+            );
+            if (requiredRoles && !requiredRoles.includes(currentUser.role)) {
+                throw new ForbiddenException('Access denied');
             }
         } catch (err) {
+            if (err instanceof ForbiddenException) {
+                throw err;
+            }
             throw new UnauthorizedException('Invalid token', {
                 cause: err,
             });

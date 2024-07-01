@@ -38,13 +38,6 @@ describe('update user - admin (e2e)', () => {
 
     //create admin that can access this
     it('should not update user - JWT token not valid', async () => {
-        let adminUser = await newUserFixture(app);
-        adminUser = await updateUserRoleFixture(app, adminUser, UserRole.ADMIN);
-        const adminAccessToken = await newJwtAdminTokenFixture(
-            app,
-            adminUser.email,
-        );
-
         const exsistingUser = await newUserFixture(app);
 
         const response = await request(app.getHttpServer())
@@ -56,18 +49,24 @@ describe('update user - admin (e2e)', () => {
         expect(response.statusCode).toBe(401);
     });
 
-    // it('should not create user - user not authorized as admin, just as user', async () => {
-    //     const exsistingUser = await newUserFixture(app);
-    //     const updatedUser = await updateUserRoleFixture(
-    //         app,
-    //         exsistingUser,
-    //         UserRole.USER,
-    //     );
+    it('should not create user - user not authorized as admin, just as user', async () => {
+        let user = await newUserFixture(app);
+        user = await updateUserRoleFixture(app, user, UserRole.USER);
+        const userAccessToken = await newJwtUserTokenFixture(app, user.email);
 
-    //     const response = await request(app.getHttpServer())
-    //         .patch('/' + API_V1_ADMIN_PATH + '/users/' + updatedUser.id + '/')
-    //         .set('Authorization', 'Bearer "' + userAccessToken + '"');
+        const exsistingUser = await newUserFixture(app);
+        const updatedUser = await updateUserRoleFixture(
+            app,
+            exsistingUser,
+            UserRole.USER,
+        );
 
-    //     expect(response.statusCode).toBe(401);
-    // });
+        const response = await request(app.getHttpServer())
+            .patch('/' + API_V1_ADMIN_PATH + '/users/' + updatedUser.id + '/')
+            .set('Authorization', 'Bearer ' + userAccessToken)
+            .send({ firstName: 'newName' });
+
+        expect(response.statusCode).toBe(403);
+        expect(response.body.message).toBe('Access denied');
+    });
 });

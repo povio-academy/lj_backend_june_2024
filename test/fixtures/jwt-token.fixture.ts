@@ -7,7 +7,10 @@ export const newJwtAdminTokenFixture = async (
 ) => {
     const createJwtTokenUseCase = app.get(CreateJwtTokenUseCase);
 
-    const jwtToken = createJwtTokenUseCase.execute(`ADMIN|${email}`);
+    const jwtToken = await createJwtTokenUseCase.execute({
+        email: email,
+        role: 'ADMIN',
+    });
     return jwtToken;
 };
 
@@ -17,6 +20,9 @@ export const newJwtUserTokenFixture = async (
 ) => {
     const createJwtTokenUseCase = app.get(CreateJwtTokenUseCase);
 
-    const jwtToken = createJwtTokenUseCase.execute(`USER|${email}`);
+    const jwtToken = await createJwtTokenUseCase.execute({
+        email: email,
+        role: 'USER',
+    });
     return jwtToken;
 };
