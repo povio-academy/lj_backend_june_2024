@@ -22,12 +22,21 @@ export class InviteUserUseCase {
     async execute(userId: string, email: string) {
         // THIS SHOULD BE TAKEN FROM JWT IN THE FUTURE
         const inviter = await this.userRepository.getById(userId);
+        console.log('Inviter:', inviter);
         if (!inviter) {
             throw new Error('Inviter not found');
         }
 
         if (inviter.role !== UserRole.ADMIN) {
             throw new Error('Only admins can invite users');
+        }
+
+        if (email.length === 0) {
+            throw new Error('Email is required');
+        }
+
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+            throw new Error('Invalid email');
         }
 
         const userExists = await this.userRepository.getByEmail(email);

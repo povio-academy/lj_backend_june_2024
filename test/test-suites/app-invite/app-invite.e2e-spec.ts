@@ -51,7 +51,7 @@ describe('AppInviteController (e2e)', () => {
             .send({
                 email: 'john.doe@mail.com',
             });
-        expect(response.statusCode).toBe(401);
+        expect(response.statusCode).toBe(400);
     });
 
     test.each`
@@ -61,9 +61,10 @@ describe('AppInviteController (e2e)', () => {
         ${'invalid email'} | ${{ email: 'invalid-email' }}
     `('should not invite a user - $caseDesc', async ({ payload }) => {
         const response = await request(testingApp.getHttpServer())
-            .post('/' + API_V1_ADMIN_PATH + 'users/invite')
+            .post('/' + API_V1_ADMIN_PATH + '/users/invite')
             .send(payload)
             .set('Authorization', accessToken);
+        console.log(response.body);
         expect(response.body).toBeDefined();
     });
 });

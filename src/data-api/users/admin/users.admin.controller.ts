@@ -1,4 +1,5 @@
 import {
+    BadRequestException,
     Body,
     Controller,
     Get,
@@ -36,7 +37,11 @@ export class UsersAdminController {
     @HttpCode(204)
     async invite(@Body() body: InviteReqDto) {
         // INVITER ID SHOULD BE TAKEN FROM THE JWT TOKEN
-        console.log(this.inviteUserUseCase.execute('1 ', body.email));
+        try {
+            await this.inviteUserUseCase.execute('1', body.email);
+        } catch (error) {
+            throw new BadRequestException(error);
+        }
     }
 
     @ApiPaginationResponse(UserDto)

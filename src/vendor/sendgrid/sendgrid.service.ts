@@ -7,7 +7,6 @@ import { AppInviteData } from '~modules/notification/email/email.service';
 @Injectable()
 export class SendGridService implements IEmailProvider {
     constructor(private readonly sendgridConfig: SendgridConfig) {
-        console.log('SendgridConfig', sendgridConfig);
         SendGrid.setApiKey(sendgridConfig.apiKey);
     }
 
