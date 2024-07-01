@@ -10,6 +10,4 @@ export interface IUserRepository {
     update(data: UserEntity): Promise<UserEntity>;
 
     delete(userId: string): Promise<UserEntity>;
-
-    getByEmail(email: string): Promise<UserEntity | null>;
 }
