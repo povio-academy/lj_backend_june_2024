@@ -12,6 +12,7 @@ import { IUserRepository } from '~modules/user/user.repository';
 import { USER_DB_REPOSITORY } from '~db/db.module';
 import { OBJECT_NAME_MAX_LENGTH } from '~common/domain.constants';
 import { EmailInUseUserError } from '~modules/user/user.errors';
+import { API_V1 } from '~common/http/http.constant';
 
 describe('Register endpoint (e2e)', () => {
     let app: INestApplication;
@@ -52,7 +53,7 @@ describe('Register endpoint (e2e)', () => {
         'should not create user - input validation error - $caseDesc',
         async ({ caseDesc, payload }) => {
             const response = await request(app.getHttpServer())
-                .post('/auth/register')
+                .post(API_V1 + '/auth/register')
                 .send(payload);
 
             expect(response.body.details.errors).toBeDefined();
@@ -75,7 +76,7 @@ describe('Register endpoint (e2e)', () => {
         };
 
         const response = await request(app.getHttpServer())
-            .post('/auth/register')
+            .post(API_V1 + '/auth/register')
             .send(newUser);
 
         expect(response.statusCode).toBe(204);
@@ -90,7 +91,7 @@ describe('Register endpoint (e2e)', () => {
         };
 
         const response = await request(app.getHttpServer())
-            .post('/auth/register')
+            .post(API_V1 + '/auth/register')
             .send(newUser);
 
         expect(response.body.code).toBe(EmailInUseUserError.name);
