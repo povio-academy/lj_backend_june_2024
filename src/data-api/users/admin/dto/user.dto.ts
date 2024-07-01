@@ -1,6 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { UserRole } from '@prisma/client';
 import { Expose } from 'class-transformer';
-import { UserRole } from '~common/enums';
+import { UserEntity } from '~modules/user/user.entity';
 
 export class UserDto {
     @Expose()
@@ -35,5 +36,11 @@ export class UserDto {
     })
     isDeleted!: boolean;
 
-    constructor() {}
+    constructor(user: UserEntity) {
+        this.firstName = user.firstName;
+        this.lastName = user.lastName;
+        this.email = user.email;
+        this.role = user.role;
+        this.isDeleted = user.isDeleted;
+    }
 }
