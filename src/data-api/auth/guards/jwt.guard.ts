@@ -20,7 +20,6 @@ export class JwtGuard implements CanActivate {
     ) {}
 
     async canActivate(context: ExecutionContext): Promise<boolean> {
-        console.log('JwtGuard');
         const request = context.switchToHttp().getRequest();
 
         const authHeader = request.headers.authorization;
@@ -28,8 +27,6 @@ export class JwtGuard implements CanActivate {
             throw new UnauthorizedException('Token not provided');
         }
         const [type, token] = authHeader.split(' ') ?? [];
-        console.log('type', type);
-        console.log('token', token);
         if (type !== 'Bearer') {
             throw new UnauthorizedException('Invalid token type');
         }
