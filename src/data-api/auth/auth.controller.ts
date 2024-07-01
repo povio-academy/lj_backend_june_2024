@@ -12,10 +12,11 @@ import { CreateUserUseCase } from '~modules/user/use-cases/create-user.use-case'
 import { LoginReqDto } from './dto/login.req.dto';
 import { JwtDto } from './dto/Jwt.dto';
 import { LoginUseCase } from '~modules/auth/use-cases/login.use-case';
+import { API_V1 } from '~common/http/http.constant';
 
 @ApiTags('Auth')
 @Injectable()
-@Controller('/auth')
+@Controller(`${API_V1}/auth`)
 export class AuthController {
     constructor(
         private createUserUseCase: CreateUserUseCase,
